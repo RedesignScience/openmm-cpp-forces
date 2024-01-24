@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>ConcertedRMSDForce &#8212; OpenMM Custom CPP Forces  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=12dfc556" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=d72ef124" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=ccdb6887"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Contributing" href="../contributing.html" />
+    <link rel="prev" title="Python API" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="concertedrmsdforce">
+<h1>ConcertedRMSDForce<a class="headerlink" href="#concertedrmsdforce" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="customcppforces.ConcertedRMSDForce">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ConcertedRMSDForce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customcppforces.ConcertedRMSDForce" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Force</span></code></p>
+<p>This is a force whose energy equals the root mean squared deviation (RMSD)
+between the current coordinates and a reference structure.  It is intended for
+use with CustomCVForce.  You will not normally want a force that exactly equals
+the RMSD, but there are many situations where it is useful to have a restraining
+or biasing force that depends on the RMSD in some way.</p>
+<p>The force is computed by first aligning the particle positions to the reference
+structure, then computing the RMSD between the aligned positions and the reference.
+The computation can optionally be done based on only a subset of the particles
+in the system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>referencePositions</strong> – the reference positions to compute the deviation
+from.  The length of this vector must equal the
+number of particles in the system, even if not
+all particles are used in computing the RMSD.</p></li>
+<li><p><strong>particles</strong> – the indices of the particles to use when computing
+the RMSD.  If this is empty (the default), all
+particles in the system will be used.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="customcppforces.ConcertedRMSDForce.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customcppforces.ConcertedRMSDForce.__init__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#customcppforces.ConcertedRMSDForce.getForceGroup" title="customcppforces.ConcertedRMSDForce.getForceGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getForceGroup</span></code></a>(self)</p></td>
+<td><p>Get the force group this Force belongs to.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#customcppforces.ConcertedRMSDForce.getName" title="customcppforces.ConcertedRMSDForce.getName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getName</span></code></a>(self)</p></td>
+<td><p>Get the name of this Force.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#customcppforces.ConcertedRMSDForce.getParticles" title="customcppforces.ConcertedRMSDForce.getParticles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getParticles</span></code></a>()</p></td>
+<td><p>Get the indices of the particles to use when computing the RMSD.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#customcppforces.ConcertedRMSDForce.getReferencePositions" title="customcppforces.ConcertedRMSDForce.getReferencePositions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">getReferencePositions</span></code></a>()</p></td>
+<td><p>Get the reference positions to compute the deviation from.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#customcppforces.ConcertedRMSDForce.setForceGroup" title="customcppforces.ConcertedRMSDForce.setForceGroup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setForceGroup</span></code></a>(self, group)</p></td>
+<td><p>Set the force group this Force belongs to.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#customcppforces.ConcertedRMSDForce.setName" title="customcppforces.ConcertedRMSDForce.setName"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setName</span></code></a>(self, name)</p></td>
+<td><p>Set the name of this Force.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#customcppforces.ConcertedRMSDForce.setParticles" title="customcppforces.ConcertedRMSDForce.setParticles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setParticles</span></code></a>(particles)</p></td>
+<td><p>Set the indices of the particles to use when computing the RMSD.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#customcppforces.ConcertedRMSDForce.setReferencePositions" title="customcppforces.ConcertedRMSDForce.setReferencePositions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setReferencePositions</span></code></a>(positions)</p></td>
+<td><p>Set the reference positions to compute the deviation from.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#customcppforces.ConcertedRMSDForce.updateParametersInContext" title="customcppforces.ConcertedRMSDForce.updateParametersInContext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">updateParametersInContext</span></code></a>(context)</p></td>
+<td><p>Update the reference positions and particle indices in a Context to match those stored in this Force object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#customcppforces.ConcertedRMSDForce.usesPeriodicBoundaryConditions" title="customcppforces.ConcertedRMSDForce.usesPeriodicBoundaryConditions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">usesPeriodicBoundaryConditions</span></code></a>()</p></td>
+<td><p>Returns whether or not this force makes use of periodic boundary conditions.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">thisown</span></code></p></td>
+<td><p>The membership flag</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="customcppforces.ConcertedRMSDForce.getForceGroup">
+<span class="sig-name descname"><span class="pre">getForceGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#customcppforces.ConcertedRMSDForce.getForceGroup" title="Link to this definition">¶</a></dt>
+<dd><p>Get the force group this Force belongs to.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customcppforces.ConcertedRMSDForce.getName">
+<span class="sig-name descname"><span class="pre">getName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">std::string</span> <span class="pre">const</span> <span class="pre">&amp;</span></span></span><a class="headerlink" href="#customcppforces.ConcertedRMSDForce.getName" title="Link to this definition">¶</a></dt>
+<dd><p>Get the name of this Force. This is an arbitrary, user modifiable identifier. By default it equals the class name, but you can change it to anything useful.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customcppforces.ConcertedRMSDForce.getParticles">
+<span class="sig-name descname"><span class="pre">getParticles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customcppforces.ConcertedRMSDForce.getParticles" title="Link to this definition">¶</a></dt>
+<dd><p>Get the indices of the particles to use when computing the RMSD.  If this
+is empty, all particles in the system will be used.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customcppforces.ConcertedRMSDForce.getReferencePositions">
+<span class="sig-name descname"><span class="pre">getReferencePositions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customcppforces.ConcertedRMSDForce.getReferencePositions" title="Link to this definition">¶</a></dt>
+<dd><p>Get the reference positions to compute the deviation from.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customcppforces.ConcertedRMSDForce.setForceGroup">
+<span class="sig-name descname"><span class="pre">setForceGroup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customcppforces.ConcertedRMSDForce.setForceGroup" title="Link to this definition">¶</a></dt>
+<dd><p>Set the force group this Force belongs to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>group</strong> (<em>int</em>) – the group index. Legal values are between 0 and 31 (inclusive).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customcppforces.ConcertedRMSDForce.setName">
+<span class="sig-name descname"><span class="pre">setName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customcppforces.ConcertedRMSDForce.setName" title="Link to this definition">¶</a></dt>
+<dd><p>Set the name of this Force. This is an arbitrary, user modifiable identifier. By default it equals the class name, but you can change it to anything useful.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customcppforces.ConcertedRMSDForce.setParticles">
+<span class="sig-name descname"><span class="pre">setParticles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">particles</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customcppforces.ConcertedRMSDForce.setParticles" title="Link to this definition">¶</a></dt>
+<dd><p>Set the indices of the particles to use when computing the RMSD.  If this
+is empty, all particles in the system will be used.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customcppforces.ConcertedRMSDForce.setReferencePositions">
+<span class="sig-name descname"><span class="pre">setReferencePositions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customcppforces.ConcertedRMSDForce.setReferencePositions" title="Link to this definition">¶</a></dt>
+<dd><p>Set the reference positions to compute the deviation from.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customcppforces.ConcertedRMSDForce.updateParametersInContext">
+<span class="sig-name descname"><span class="pre">updateParametersInContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customcppforces.ConcertedRMSDForce.updateParametersInContext" title="Link to this definition">¶</a></dt>
+<dd><p>Update the reference positions and particle indices in a Context to match those stored
+in this Force object.  This method provides an efficient method to update certain parameters
+in an existing Context without needing to reinitialize it.  Simply call setReferencePositions()
+and setParticles() to modify this object’s parameters, then call updateParametersInContext()
+to copy them over to the Context.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customcppforces.ConcertedRMSDForce.usesPeriodicBoundaryConditions">
+<span class="sig-name descname"><span class="pre">usesPeriodicBoundaryConditions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customcppforces.ConcertedRMSDForce.usesPeriodicBoundaryConditions" title="Link to this definition">¶</a></dt>
+<dd><p>Returns whether or not this force makes use of periodic boundary
+conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>boolean</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>true if force uses PBC and false otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo_small.png" alt="Logo" />
+    
+    <h1 class="logo logo-name">OpenMM Custom CPP Forces</h1>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+
+
+
+<h3><a href="../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Python API</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">ConcertedRMSDForce</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Author</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Charlles Abreu. Project based on OpenMM.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="../_sources/pythonapi/ConcertedRMSDForce.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

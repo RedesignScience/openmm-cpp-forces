@@ -1,0 +1,31 @@
+ConcertedRMSDForce
+==================
+
+.. currentmodule:: customcppforces
+.. autoclass:: ConcertedRMSDForce
+    :members:
+    :inherited-members:
+    :member-order: alphabetical
+    :show-inheritance:
+    :exclude-members: thisown, isinstance
+
+    .. automethod:: __init__
+
+    .. rubric:: Methods
+
+    .. autosummary::
+        getForceGroup
+        getName
+        getParticles
+        getReferencePositions
+        setForceGroup
+        setName
+        setParticles
+        setReferencePositions
+        updateParametersInContext
+        usesPeriodicBoundaryConditions
+
+    .. rubric:: Attributes
+
+    .. autosummary::
+        thisown
