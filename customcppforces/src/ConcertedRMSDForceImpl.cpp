@@ -80,23 +80,26 @@ double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
     // "Using quaternions to calculate RMSD" (doi: 10.1002/jcc.20110).  First subtract
     // the centroid from the atom positions.  The reference positions have already been centered.
 
-    Vec3 center(0.0, 0.0, 0.0);
-    for (int i : groups[0])
-        center += positions[i];
-    center /= groups[0].size();
-    vector<Vec3> centeredPos(groups[0].size());
-    for (int i = 0; i < groups[0].size(); i++)
-        centeredPos[i] = positions[groups[0][i]] - center;
+    vector<Vec3> centeredPos(referencePos.size());
+    int numParticles = 0;
+    for (auto& group : groups) {
+        Vec3 center(0.0, 0.0, 0.0);
+        for (int i : group)
+            center += positions[i];
+        center /= group.size();
+        numParticles += group.size();
+        for (int i : group)
+            centeredPos[i] = positions[i] - center;
+    }
 
     // Compute the correlation matrix.
 
     double R[3][3] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
     for (int i = 0; i < 3; i++)
         for (int j = 0; j < 3; j++)
-            for (int k = 0; k < groups[0].size(); k++) {
-                int index = groups[0][k];
-                R[i][j] += centeredPos[k][i]*referencePos[index][j];
-            }
+            for (auto& group : groups)
+                for (int index : group)
+                    R[i][j] += centeredPos[index][i]*referencePos[index][j];
 
     // Compute the F matrix.
 
@@ -132,11 +135,11 @@ double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
     // Compute the RMSD.
 
     double sum = 0.0;
-    for (int i = 0; i < groups[0].size(); i++) {
-        int index = groups[0][i];
-        sum += centeredPos[i].dot(centeredPos[i]) + referencePos[index].dot(referencePos[index]);
-    }
-    double msd = (sum - 2*values[3])/groups[0].size();
+    for (auto& group : groups)
+        for (int index : group)
+            sum += centeredPos[index].dot(centeredPos[index]) + referencePos[index].dot(referencePos[index]);
+
+    double msd = (sum - 2*values[3])/numParticles;
     if (msd < 1e-20) {
         // The particles are perfectly aligned, so all the forces should be zero.
         // Numerical error can lead to NaNs, so just return 0 now.
@@ -157,12 +160,13 @@ double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
 
     // Rotate the reference positions and compute the forces.
 
-    for (int i = 0; i < groups[0].size(); i++) {
-        const Vec3& p = referencePos[groups[0][i]];
-        Vec3 rotatedRef(U[0][0]*p[0] + U[1][0]*p[1] + U[2][0]*p[2],
-                        U[0][1]*p[0] + U[1][1]*p[1] + U[2][1]*p[2],
-                        U[0][2]*p[0] + U[1][2]*p[1] + U[2][2]*p[2]);
-        forces[groups[0][i]] = -(centeredPos[i] - rotatedRef) / (rmsd*groups[0].size());
+    for (auto& group : groups)
+        for (int index : group) {
+            const Vec3& p = referencePos[index];
+            Vec3 rotatedRef(U[0][0]*p[0] + U[1][0]*p[1] + U[2][0]*p[2],
+                            U[0][1]*p[0] + U[1][1]*p[1] + U[2][1]*p[2],
+                            U[0][2]*p[0] + U[1][2]*p[1] + U[2][2]*p[2]);
+            forces[index] = -(centeredPos[index] - rotatedRef) / (rmsd*groups[0].size());
     }
     return rmsd;
 }
