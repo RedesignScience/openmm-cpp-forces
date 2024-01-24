@@ -6,19 +6,16 @@ To use the plugin from your Python script, you can do:
 .. code-block:: python
 
     import openmm as mm
-    import customcppforces as mmlab
-    system = mm.System()
-    force = mmlab.SlicedNonbondedForce(2)
-    system.addForce(force)
+    import customcppforces
+
+    force = customcppforces.ConcertedRMSDForce()
 
 This is the implemented subclass of :OpenMM:`Force`:
 
 .. toctree::
     :titlesonly:
 
-    CustomSummation
-    ExtendedCustomCVForce
-    SlicedNonbondedForce
+    ConcertedRMSDForce
 
 
 .. testsetup::

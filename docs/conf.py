@@ -35,9 +35,7 @@ def create_rst_file(cls):
         ])
 
 
-create_rst_file(customcppforces.SlicedNonbondedForce)
-create_rst_file(customcppforces.ExtendedCustomCVForce)
-create_rst_file(customcppforces.CustomSummation)
+create_rst_file(customcppforces.ConcertedRMSDForce)
 
 extensions = [
     'sphinx.ext.autodoc',
@@ -60,8 +58,8 @@ if os.getenv('SPELLCHECK'):
 source_suffix = '.rst'
 master_doc = 'index'
 
-project = 'CustomCPPForces'
-copyright = ('2023, Charlles Abreu. Project based on OpenMM')
+project = 'OpenMM Custom CPP Forces'
+copyright = ('2024, Charlles Abreu. Project based on OpenMM')
 author = 'Charlles Abreu'
 
 # The short X.Y version

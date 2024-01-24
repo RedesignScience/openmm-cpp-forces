@@ -23,7 +23,6 @@ Contents
    pythonapi/index
    contributing
    authors
-   changelog
    references
 
 Indices and tables
