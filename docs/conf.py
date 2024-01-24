@@ -60,7 +60,7 @@ if os.getenv('SPELLCHECK'):
 source_suffix = '.rst'
 master_doc = 'index'
 
-project = 'OpenMM Laboratory'
+project = 'CustomCPPForces'
 copyright = ('2023, Charlles Abreu. Project based on OpenMM')
 author = 'Charlles Abreu'
 
@@ -72,8 +72,8 @@ release = ''
 pygments_style = 'trac'
 templates_path = ['.']
 extlinks = {
-    'issue': ('https://github.com/craabreu/openmm-lab/issues/%s', '#'),
-    'pr': ('https://github.com/craabreu/openmm-lab/pull/%s', 'PR #'),
+    'issue': ('https://github.com/craabreu/customcppforces/issues/%s', '#'),
+    'pr': ('https://github.com/craabreu/customcppforces/pull/%s', 'PR #'),
 }
 
 # on_rtd is whether we are on readthedocs.org
@@ -89,7 +89,7 @@ html_theme_options = {
     'logo_name': True,
     'github_button': False,
     'github_user': 'craabreu',
-    'github_repo': 'openmm-lab',
+    'github_repo': 'customcppforces',
 }
 html_sidebars = {
    '**': ['about.html', 'globaltoc.html', 'searchbox.html'],

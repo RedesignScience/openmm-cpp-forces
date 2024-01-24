@@ -23,7 +23,7 @@ namespace CustomCPPForces {
  * This is a proxy for serializing ConcertedRMSDForce objects.
  */
 
-class OPENMM_EXPORT_OPENMM_LAB ConcertedRMSDForceProxy : public SerializationProxy {
+class CUSTOM_CPP_FORCES_EXPORT ConcertedRMSDForceProxy : public SerializationProxy {
 public:
     ConcertedRMSDForceProxy();
     void serialize(const void* object, SerializationNode& node) const;

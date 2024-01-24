@@ -1,9 +1,9 @@
-OpenMM Laboratory Plugin
+CustomCPPForces Plugin
 ========================
 
-[![Linux](https://github.com/craabreu/openmm-lab/actions/workflows/Linux.yml/badge.svg)](https://github.com/craabreu/openmm-lab/actions/workflows/Linux.yml)
-[![MacOS](https://github.com/craabreu/openmm-lab/actions/workflows/MacOS.yml/badge.svg)](https://github.com/craabreu/openmm-lab/actions/workflows/MacOS.yml)
-[![Doc](https://github.com/craabreu/openmm-lab/actions/workflows/Doc.yml/badge.svg)](https://github.com/craabreu/openmm-lab/actions/workflows/Doc.yml)
+[![Linux](https://github.com/craabreu/customcppforces/actions/workflows/Linux.yml/badge.svg)](https://github.com/craabreu/customcppforces/actions/workflows/Linux.yml)
+[![MacOS](https://github.com/craabreu/customcppforces/actions/workflows/MacOS.yml/badge.svg)](https://github.com/craabreu/customcppforces/actions/workflows/MacOS.yml)
+[![Doc](https://github.com/craabreu/customcppforces/actions/workflows/Doc.yml/badge.svg)](https://github.com/craabreu/customcppforces/actions/workflows/Doc.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 This [OpenMM] plugin is a laboratory for low-level code implementation.
@@ -11,7 +11,7 @@ This [OpenMM] plugin is a laboratory for low-level code implementation.
 Documentation
 =============
 
-Documentation for this plugin is available at [Github Pages](https://craabreu.github.io/openmm-lab/).
+Documentation for this plugin is available at [Github Pages](https://craabreu.github.io/customcppforces/).
 
 Installing from Source
 ======================

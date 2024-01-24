@@ -33,7 +33,7 @@ namespace CustomCPPForces {
  * in the system.
  */
 
-class OPENMM_EXPORT_OPENMM_LAB ConcertedRMSDForce : public Force {
+class CUSTOM_CPP_FORCES_EXPORT ConcertedRMSDForce : public Force {
 public:
     /**
      * Create an ConcertedRMSDForce.
