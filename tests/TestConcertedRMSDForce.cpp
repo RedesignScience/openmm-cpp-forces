@@ -11,17 +11,26 @@
 #include "ConcertedRMSDForce.h"
 
 #include "openmm/internal/AssertionUtilities.h"
+#include "openmm/reference/ReferencePlatform.h"
 #include "openmm/Context.h"
 #include "openmm/System.h"
 #include "openmm/VerletIntegrator.h"
 #include "sfmt/SFMT.h"
 #include <cmath>
 #include <iostream>
+#include <map>
+#include <string>
 #include <vector>
 
 using namespace CustomCPPForces;
 using namespace OpenMM;
 using namespace std;
+
+ReferencePlatform platform;
+
+void initializeTests(int argc, char* argv[]) {
+    platform = dynamic_cast<OpenMM::ReferencePlatform&>(OpenMM::Platform::getPlatformByName("Reference"));
+}
 
 double estimateRMSD(vector<Vec3>& positions, vector<Vec3>& referencePos, vector<int>& particles) {
     // Estimate the RMSD.  For simplicity we omit the orientation alignment, but they should
@@ -136,13 +145,10 @@ void testRMSD() {
     ASSERT(rmsd1 > 0.9*estimate);
 }
 
-void runPlatformTests();
-
 int main(int argc, char* argv[]) {
     try {
         initializeTests(argc, argv);
         testRMSD();
-        runPlatformTests();
     }
     catch(const exception& e) {
         cout << "exception: " << e.what() << endl;
