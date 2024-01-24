@@ -14,13 +14,15 @@ ConcertedRMSDForce
     .. rubric:: Methods
 
     .. autosummary::
+        addGroup
         getForceGroup
+        getGroup
         getName
-        getParticles
+        getNumGroups
         getReferencePositions
         setForceGroup
+        setGroup
         setName
-        setParticles
         setReferencePositions
         updateParametersInContext
         usesPeriodicBoundaryConditions
