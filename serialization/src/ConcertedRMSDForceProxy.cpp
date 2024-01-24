@@ -30,9 +30,13 @@ void ConcertedRMSDForceProxy::serialize(const void* object, SerializationNode& n
     SerializationNode& positionsNode = node.createChildNode("ReferencePositions");
     for (const Vec3& pos : force.getReferencePositions())
        positionsNode.createChildNode("Position").setDoubleProperty("x", pos[0]).setDoubleProperty("y", pos[1]).setDoubleProperty("z", pos[2]);
-    SerializationNode& particlesNode = node.createChildNode("Particles");
-    for (int i : force.getGroup(0))
-       particlesNode.createChildNode("Particle").setIntProperty("index", i);
+    SerializationNode& groupsNode = node.createChildNode("Groups");
+    for (int i = 0; i < force.getNumGroups(); i++) {
+        const vector<int>& group = force.getGroup(i);
+        SerializationNode& groupNode = groupsNode.createChildNode("Group");
+        for (int particle : group)
+            groupNode.createChildNode("Particle").setIntProperty("index", particle);
+    }
 }
 
 void* ConcertedRMSDForceProxy::deserialize(const SerializationNode& node) const {
@@ -44,11 +48,16 @@ void* ConcertedRMSDForceProxy::deserialize(const SerializationNode& node) const 
         vector<Vec3> positions;
         for (auto& pos : node.getChildNode("ReferencePositions").getChildren())
             positions.push_back(Vec3(pos.getDoubleProperty("x"), pos.getDoubleProperty("y"), pos.getDoubleProperty("z")));
-        vector<int> particles;
-        for (auto& particle : node.getChildNode("Particles").getChildren())
-            particles.push_back(particle.getIntProperty("index"));
+        vector<vector<int>> groups;
+        for (auto& group : node.getChildNode("Groups").getChildren()) {
+            vector<int> particles;
+            for (auto& particle : group.getChildren())
+                particles.push_back(particle.getIntProperty("index"));
+            groups.push_back(particles);
+        }
         force = new ConcertedRMSDForce(positions);
-        force->addGroup(particles);
+        for (auto& particles : groups)
+            force->addGroup(particles);
         force->setForceGroup(node.getIntProperty("forceGroup", 0));
         force->setName(node.getStringProperty("name", force->getName()));
         return force;
