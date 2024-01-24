@@ -50,9 +50,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DPLUGIN_BUILD_CUDA_LIB=OFF
+          cmake -DCMAKE_BUILD_TYPE=Release ..
 
       - name: "Build"
         shell: bash -l {0}
