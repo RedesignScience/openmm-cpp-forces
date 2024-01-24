@@ -22,9 +22,7 @@ jobs:
         include:
           - name: MacOS (Python 3.9)
             os: macos-11
-            cuda-version: ""
             gcc-version: ""
-            nvcc-version: ""
             python-version: "3.9"
 
     steps:
@@ -41,9 +39,7 @@ jobs:
           tokenSuffix: '@'
           files: devtools/conda-envs/build-${{ matrix.os }}.yml
         env:
-          CUDATOOLKIT_VERSION: ${{ matrix.cuda-version }}
           GCC_VERSION: ${{ matrix.gcc-version }}
-          NVCC_VERSION: ${{ matrix.nvcc-version }}
 
       - uses: conda-incubator/setup-miniconda@v2
         name: "Install dependencies with conda"
@@ -61,9 +57,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DPLUGIN_BUILD_CUDA_LIB=OFF
+          cmake -DCMAKE_BUILD_TYPE=Release ..
 
       - name: "Build"
         shell: bash -l {0}
@@ -81,10 +75,10 @@ jobs:
         shell: bash -l {0}
         run: |
           cd build
-          ctest --output-on-failure --exclude-regex 'Test[Cuda|OpenCL]'
+          ctest --output-on-failure
 
       - name: "Run Python test"
         shell: bash -l {0}
         run: |
           cd build/python/tests
-          pytest --verbose -k 'not (Cuda or OpenCL)' Test*
+          pytest --verbose Test*

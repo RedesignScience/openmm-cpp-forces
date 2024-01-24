@@ -22,30 +22,16 @@ jobs:
           # Oldest supported versions
           - python-version: "3.9"
             openmm-version: "8.1"
-            cuda-version: "11.2.0"
             gcc-version: "9.4"
-            nvcc-version: "11.2"
 
           # Latest supported versions
           - python-version: "3.11"
             openmm-version: "8.1"
-            cuda-version: "11.7.0"
             gcc-version: "13.2"
-            nvcc-version: "11.7"
 
     steps:
       - name: "Check out"
         uses: actions/checkout@v3
-
-      - name: "Install CUDA Toolkit on Linux"
-        uses: Jimver/cuda-toolkit@v0.2.13
-        id: cuda-toolkit
-        with:
-          cuda: ${{ matrix.cuda-version }}
-          method: 'network'
-
-      - name: "Install AMD OpenCL on Linux"
-        run: source devtools/scripts/install_amd_opencl.sh
 
       - name: "Update the conda enviroment file"
         uses: cschleiden/replace-tokens@v1
@@ -54,7 +40,6 @@ jobs:
           tokenSuffix: '@'
           files: devtools/conda-envs/build-ubuntu-20.04.yml
         env:
-          CUDATOOLKIT_VERSION: ${{ matrix.cuda-version }}
           GCC_VERSION: ${{ matrix.gcc-version }}
           OPENMM_VERSION: ${{ matrix.openmm-version }}
 
@@ -74,10 +59,7 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake .. \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DCUDA_TOOLKIT_ROOT_DIR=${CUDA_PATH} \
-            -DCUDA_CUDA_LIBRARY=${CUDA_PATH}/lib64/stubs
+          cmake -DCMAKE_BUILD_TYPE=Release ..
 
       - name: "Build"
         shell: bash -l {0}
@@ -95,10 +77,10 @@ jobs:
         shell: bash -l {0}
         run: |
           cd build
-          ctest --output-on-failure --exclude-regex 'TestCuda'
+          ctest --output-on-failure
 
       - name: "Run Python test"
         shell: bash -l {0}
         run: |
           cd build/python/tests
-          pytest --verbose -k 'not Cuda' Test*
+          pytest --verbose Test*
