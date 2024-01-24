@@ -43,8 +43,8 @@ __version__ = "@CMAKE_PROJECT_VERSION@"
 namespace CustomCPPForces {
 
 /**
- * This is a force whose energy equals the root mean squared deviation (RMSD)
- * between the current coordinates and a reference structure.  It is intended for
+ * This is a force whose energy equals a special type of root mean squared deviation
+ * (RMSD) between the current coordinates and a reference structure.  It is intended for
  * use with CustomCVForce.  You will not normally want a force that exactly equals
  * the RMSD, but there are many situations where it is useful to have a restraining
  * or biasing force that depends on the RMSD in some way.
@@ -57,44 +57,76 @@ namespace CustomCPPForces {
  * Parameters
  * ----------
  * referencePositions
- *     the reference positions to compute the deviation
- *     from.  The length of this vector must equal the
- *     number of particles in the system, even if not
- *     all particles are used in computing the RMSD.
- * particles
- *     the indices of the particles to use when computing
- *     the RMSD.  If this is empty (the default), all
- *     particles in the system will be used.
+ *     the reference positions to compute the deviation from. The length of this vector
+ *     must equal the number of particles in the system, even if not all particles are
+ *     used in computing the Concerted RMSD.
  */
 class ConcertedRMSDForce : public OpenMM::Force {
 public:
-    explicit ConcertedRMSDForce(
-        const std::vector<OpenMM::Vec3>& referencePositions,
-        const std::vector<int>& particles=std::vector<int>()
-    );
+    explicit ConcertedRMSDForce(const std::vector<OpenMM::Vec3>& referencePositions);
     /**
      * Get the reference positions to compute the deviation from.
      */
     const std::vector<OpenMM::Vec3>& getReferencePositions() const;
     /**
      * Set the reference positions to compute the deviation from.
+     *
+     * Parameters
+     * ----------
+     * positions
+     *     the reference positions to compute the deviation from. The length of this
+     *     vector must equal the number of particles in the system, even if not all
+     *     particles are used in computing the concerted RMSD.
      */
     void setReferencePositions(const std::vector<OpenMM::Vec3>& positions);
     /**
-     * Get the indices of the particles to use when computing the RMSD.  If this
-     * is empty, all particles in the system will be used.
+     * Add a group of particles to be included in the concerted RMSD calculation.
+     *
+     * Parameters
+     * ----------
+     * particles
+     *     the indices of the particles to include
+     *
+     * Returns
+     * -------
+     * int
+     *     the index of the group that was added
      */
-    const std::vector<int>& getParticles() const;
+    int addGroup(const std::vector<int>& particles);
     /**
-     * Set the indices of the particles to use when computing the RMSD.  If this
-     * is empty, all particles in the system will be used.
+     * Get the number of particle groups included in the concerted RMSD calculation.
      */
-    void setParticles(const std::vector<int>& particles);
+    int getNumGroups() const;
     /**
-     * Update the reference positions and particle indices in a Context to match those stored
-     * in this Force object.  This method provides an efficient method to update certain parameters
+     * Get the particles of a group included in the concerted RMSD calculation.
+     *
+     * Parameters
+     * ----------
+     * index
+     *     the index of the group whose particles are to be retrieved
+     *
+     * Returns
+     * -------
+     * List[int]
+     *     the indices of the particles in the group
+     */
+    const std::vector<int>& getGroup(int index) const;
+    /**
+     * Set the particles of a group included in the concerted RMSD calculation.
+     *
+     * Parameters
+     * ----------
+     * index
+     *    the index of the group whose particles are to be set
+     * particles
+     *   the indices of the particles to include
+     */
+    void setGroup(int index, const std::vector<int>& particles);
+    /**
+     * Update the reference positions and particle groups in a Context to match those stored
+     * in this Force object.  This method provides an efficient way to update these parameters
      * in an existing Context without needing to reinitialize it.  Simply call setReferencePositions()
-     * and setParticles() to modify this object's parameters, then call updateParametersInContext()
+     * and setGroup() to modify this object's parameters, then call updateParametersInContext()
      * to copy them over to the Context.
      */
     void updateParametersInContext(OpenMM::Context& context);

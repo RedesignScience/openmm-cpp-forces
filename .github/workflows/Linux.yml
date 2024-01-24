@@ -14,7 +14,7 @@ on:
 jobs:
   unix:
     runs-on: ubuntu-20.04
-    name: Linux (Python ${{ matrix.python-version }}, OpenMM ${{ matrix.openmm-version }}, CUDA ${{ matrix.cuda-version }})
+    name: Linux (Python ${{ matrix.python-version }}, OpenMM ${{ matrix.openmm-version }}, GCC ${{ matrix.gcc-version }})
     strategy:
       fail-fast: false
       matrix:

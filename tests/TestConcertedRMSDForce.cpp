@@ -66,7 +66,8 @@ void testRMSD() {
         if (i%5 != 0)
             particles.push_back(i);
     }
-    ConcertedRMSDForce* force = new ConcertedRMSDForce(referencePos, particles);
+    ConcertedRMSDForce* force = new ConcertedRMSDForce(referencePos);
+    force->addGroup(particles);
     system.addForce(force);
     VerletIntegrator integrator(0.001);
     Context context(system, integrator, platform);
@@ -132,12 +133,12 @@ void testRMSD() {
     for (int i = 0; i < numParticles; i++)
         allParticles.push_back(i);
     estimate = estimateRMSD(positions, referencePos, allParticles);
-    force->setParticles(allParticles);
+    force->setGroup(0, allParticles);
     force->setReferencePositions(referencePos);
     force->updateParametersInContext(context);
     context.setPositions(positions);
     double rmsd1 = context.getState(State::Energy).getPotentialEnergy();
-    force->setParticles(vector<int>());
+    force->setGroup(0, vector<int>());
     force->updateParametersInContext(context);
     double rmsd2 = context.getState(State::Energy).getPotentialEnergy();
     ASSERT_EQUAL_TOL(rmsd1, rmsd2, 1e-4);

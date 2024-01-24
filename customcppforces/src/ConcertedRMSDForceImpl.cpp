@@ -21,44 +21,59 @@ using namespace CustomCPPForces;
 using namespace OpenMM;
 using namespace std;
 
-void ConcertedRMSDForceImpl::initialize(ContextImpl& context) {
-    CustomCPPForceImpl::initialize(context);
 
+void ConcertedRMSDForceImpl::updateParameters(int systemSize) {
     // Check for errors in the specification of particles.
-    const System& system = context.getSystem();
-    int systemSize = system.getNumParticles();
     if (owner.getReferencePositions().size() != systemSize)
         throw OpenMMException(
-            "RMSDForce: Number of reference positions does not equal number of particles in the System"
+            "ConcertedRMSDForce: Number of reference positions does not equal number of particles in the System"
         );
 
-    particles = owner.getParticles();
-    numParticles = particles.size();
+    int numGroups = owner.getNumGroups();
+    if (numGroups == 0)
+        throw OpenMMException("ConcertedRMSDForce: No particle groups have been specified");
 
-    set<int> distinctParticles;
-    for (int i : particles) {
-        if (i < 0 || i >= systemSize) {
-            stringstream msg;
-            msg << "ConcertedRMSDForce: Illegal particle index for RMSD: ";
-            msg << i;
-            throw OpenMMException(msg.str());
+    groups.resize(numGroups);
+    for (int i = 0; i < numGroups; i++) {
+        groups[i] = owner.getGroup(i);
+        if (groups[i].size() == 0) {
+            groups[i].resize(systemSize);
+            for (int j = 0; j < systemSize; j++)
+                groups[i][j] = j;
         }
-        if (distinctParticles.find(i) != distinctParticles.end()) {
-            stringstream msg;
-            msg << "ConcertedRMSDForce: Duplicated particle index for RMSD: ";
-            msg << i;
-            throw OpenMMException(msg.str());
-        }
-        distinctParticles.insert(i);
     }
 
-    referencePos = owner.getReferencePositions();
-    Vec3 center(0.0, 0.0, 0.0);
-    for (int i : particles)
-        center += referencePos[i];
-    center /= numParticles;
-    for (Vec3& p : referencePos)
-        p -= center;
+    set<int> distinctParticles;
+    for (int k = 0; k < numGroups; k++)
+        for (int i : groups[k]) {
+            if (i < 0 || i >= systemSize) {
+                stringstream msg;
+                msg << "ConcertedRMSDForce: Illegal particle index " << i << " in group " << k;
+                throw OpenMMException(msg.str());
+            }
+            if (distinctParticles.find(i) != distinctParticles.end()) {
+                stringstream msg;
+                msg << "ConcertedRMSDForce: Duplicated particle index " << i << " in group " << k;
+                throw OpenMMException(msg.str());
+            }
+            distinctParticles.insert(i);
+        }
+
+    referencePos.resize(0);
+    const vector<Vec3>& positions = owner.getReferencePositions();
+    for (auto& group : groups) {
+        Vec3 center(0.0, 0.0, 0.0);
+        for (int i : group)
+            center += positions[i];
+        center /= group.size();
+        for (int i : group)
+            referencePos.push_back(positions[i] - center);
+    }
+}
+
+void ConcertedRMSDForceImpl::initialize(ContextImpl& context) {
+    CustomCPPForceImpl::initialize(context);
+    updateParameters(context.getSystem().getNumParticles());
 }
 
 double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<Vec3>& positions, vector<Vec3>& forces) {
@@ -66,23 +81,25 @@ double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
     // "Using quaternions to calculate RMSD" (doi: 10.1002/jcc.20110).  First subtract
     // the centroid from the atom positions.  The reference positions have already been centered.
 
-    Vec3 center(0.0, 0.0, 0.0);
-    for (int i : particles)
-        center += positions[i];
-    center /= numParticles;
+    int numParticles = referencePos.size();
     vector<Vec3> centeredPos(numParticles);
-    for (int i = 0; i < numParticles; i++)
-        centeredPos[i] = positions[particles[i]] - center;
+    int index = 0;
+    for (auto& group : groups) {
+        Vec3 center(0.0, 0.0, 0.0);
+        for (int i : group)
+            center += positions[i];
+        center /= group.size();
+        for (int i : group)
+            centeredPos[index++] = positions[i] - center;
+    }
 
     // Compute the correlation matrix.
 
     double R[3][3] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
     for (int i = 0; i < 3; i++)
         for (int j = 0; j < 3; j++)
-            for (int k = 0; k < numParticles; k++) {
-                int index = particles[k];
-                R[i][j] += centeredPos[k][i]*referencePos[index][j];
-            }
+            for (int index = 0; index < numParticles; index++)
+                R[i][j] += centeredPos[index][i]*referencePos[index][j];
 
     // Compute the F matrix.
 
@@ -118,10 +135,10 @@ double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
     // Compute the RMSD.
 
     double sum = 0.0;
-    for (int i = 0; i < numParticles; i++) {
-        int index = particles[i];
-        sum += centeredPos[i].dot(centeredPos[i]) + referencePos[index].dot(referencePos[index]);
-    }
+    for (auto& group : groups)
+        for (int index = 0; index < group.size(); index++)
+            sum += centeredPos[index].dot(centeredPos[index]) + referencePos[index].dot(referencePos[index]);
+
     double msd = (sum - 2*values[3])/numParticles;
     if (msd < 1e-20) {
         // The particles are perfectly aligned, so all the forces should be zero.
@@ -143,30 +160,20 @@ double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
 
     // Rotate the reference positions and compute the forces.
 
-    for (int i = 0; i < numParticles; i++) {
-        const Vec3& p = referencePos[particles[i]];
-        Vec3 rotatedRef(U[0][0]*p[0] + U[1][0]*p[1] + U[2][0]*p[2],
-                        U[0][1]*p[0] + U[1][1]*p[1] + U[2][1]*p[2],
-                        U[0][2]*p[0] + U[1][2]*p[1] + U[2][2]*p[2]);
-        forces[particles[i]] = -(centeredPos[i] - rotatedRef) / (rmsd*numParticles);
+    index = 0;
+    for (auto& group : groups)
+        for (int i : group) {
+            const Vec3& p = referencePos[index];
+            Vec3 rotatedRef(U[0][0]*p[0] + U[1][0]*p[1] + U[2][0]*p[2],
+                            U[0][1]*p[0] + U[1][1]*p[1] + U[2][1]*p[2],
+                            U[0][2]*p[0] + U[1][2]*p[1] + U[2][2]*p[2]);
+            forces[i] = -(centeredPos[index] - rotatedRef) / (rmsd*groups[0].size());
+            index++;
     }
     return rmsd;
 }
 
 void ConcertedRMSDForceImpl::updateParametersInContext(ContextImpl& context) {
-    if (referencePos.size() != owner.getReferencePositions().size())
-        throw OpenMMException("updateParametersInContext: The number of reference positions has changed");
-    particles = owner.getParticles();
-    if (particles.size() == 0)
-        for (int i = 0; i < referencePos.size(); i++)
-            particles.push_back(i);
-    numParticles = particles.size();
-    referencePos = owner.getReferencePositions();
-    Vec3 center(0.0, 0.0, 0.0);
-    for (int i : particles)
-        center += referencePos[i];
-    center /= numParticles;
-    for (Vec3& p : referencePos)
-        p -= center;
+    updateParameters(context.getSystem().getNumParticles());
     context.systemChanged();
 }
