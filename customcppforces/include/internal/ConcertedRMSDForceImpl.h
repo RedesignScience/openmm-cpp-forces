@@ -36,6 +36,7 @@ public:
     }
     void updateParametersInContext(ContextImpl& context);
 private:
+    void updateParameters(int systemSize);
     const ConcertedRMSDForce& owner;
     vector<vector<int>> groups;
     vector<Vec3> referencePos;

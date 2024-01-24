@@ -21,45 +21,58 @@ using namespace CustomCPPForces;
 using namespace OpenMM;
 using namespace std;
 
-void ConcertedRMSDForceImpl::initialize(ContextImpl& context) {
-    CustomCPPForceImpl::initialize(context);
 
+void ConcertedRMSDForceImpl::updateParameters(int systemSize) {
     // Check for errors in the specification of particles.
-    const System& system = context.getSystem();
-    int systemSize = system.getNumParticles();
     if (owner.getReferencePositions().size() != systemSize)
         throw OpenMMException(
-            "RMSDForce: Number of reference positions does not equal number of particles in the System"
+            "ConcertedRMSDForce: Number of reference positions does not equal number of particles in the System"
         );
 
-    groups.resize(owner.getNumGroups());
-    for (int i = 0; i < owner.getNumGroups(); i++)
-        groups[i] = owner.getGroup(i);
+    int numGroups = owner.getNumGroups();
+    if (numGroups == 0)
+        throw OpenMMException("ConcertedRMSDForce: No particle groups have been specified");
 
-    set<int> distinctParticles;
-    for (int i : groups[0]) {
-        if (i < 0 || i >= systemSize) {
-            stringstream msg;
-            msg << "ConcertedRMSDForce: Illegal particle index for RMSD: ";
-            msg << i;
-            throw OpenMMException(msg.str());
+    groups.resize(numGroups);
+    for (int i = 0; i < numGroups; i++) {
+        groups[i] = owner.getGroup(i);
+        if (groups[i].size() == 0) {
+            groups[i].resize(systemSize);
+            for (int j = 0; j < systemSize; j++)
+                groups[i][j] = j;
         }
-        if (distinctParticles.find(i) != distinctParticles.end()) {
-            stringstream msg;
-            msg << "ConcertedRMSDForce: Duplicated particle index for RMSD: ";
-            msg << i;
-            throw OpenMMException(msg.str());
-        }
-        distinctParticles.insert(i);
     }
 
+    set<int> distinctParticles;
+    for (int k = 0; k < numGroups; k++)
+        for (int i : groups[k]) {
+            if (i < 0 || i >= systemSize) {
+                stringstream msg;
+                msg << "ConcertedRMSDForce: Illegal particle index " << i << " in group " << k;
+                throw OpenMMException(msg.str());
+            }
+            if (distinctParticles.find(i) != distinctParticles.end()) {
+                stringstream msg;
+                msg << "ConcertedRMSDForce: Duplicated particle index " << i << " in group " << k;
+                throw OpenMMException(msg.str());
+            }
+            distinctParticles.insert(i);
+        }
+
     referencePos = owner.getReferencePositions();
-    Vec3 center(0.0, 0.0, 0.0);
-    for (int i : groups[0])
-        center += referencePos[i];
-    center /= groups[0].size();
-    for (Vec3& p : referencePos)
-        p -= center;
+    for (auto& group : groups) {
+        Vec3 center(0.0, 0.0, 0.0);
+        for (int i : group)
+            center += referencePos[i];
+        center /= group.size();
+        for (int i : group)
+            referencePos[i] -= center;
+    }
+}
+
+void ConcertedRMSDForceImpl::initialize(ContextImpl& context) {
+    CustomCPPForceImpl::initialize(context);
+    updateParameters(context.getSystem().getNumParticles());
 }
 
 double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<Vec3>& positions, vector<Vec3>& forces) {
@@ -155,20 +168,6 @@ double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
 }
 
 void ConcertedRMSDForceImpl::updateParametersInContext(ContextImpl& context) {
-    if (referencePos.size() != owner.getReferencePositions().size())
-        throw OpenMMException("updateParametersInContext: The number of reference positions has changed");
-    groups.resize(owner.getNumGroups());
-    for (int i = 0; i < owner.getNumGroups(); i++)
-        groups[i] = owner.getGroup(i);
-    if (groups[0].size() == 0)
-        for (int i = 0; i < referencePos.size(); i++)
-            groups[0].push_back(i);
-    referencePos = owner.getReferencePositions();
-    Vec3 center(0.0, 0.0, 0.0);
-    for (int i : groups[0])
-        center += referencePos[i];
-    center /= groups[0].size();
-    for (Vec3& p : referencePos)
-        p -= center;
+    updateParameters(context.getSystem().getNumParticles());
     context.systemChanged();
 }
