@@ -1,11 +1,11 @@
 /* -------------------------------------------------------------------------- *
- *                             OpenMM Laboratory                              *
- *                             =================                              *
+ *                          OpenMM Custom CPP Forces                          *
+ *                          ========================                          *
  *                                                                            *
- * A plugin for testing low-level code implementation for OpenMM.             *
+ *  A plugin for distributing OpenMM CustomCPPForce instances                 *
  *                                                                            *
- * Copyright (c) 2023 Charlles Abreu                                          *
- * https://github.com/craabreu/openmm-lab                                     *
+ *  Copyright (c) 2024 Charlles Abreu                                         *
+ *  https://github.com/craabreu/customcppforces                               *
  * -------------------------------------------------------------------------- */
 
 #ifndef __ReferenceExtendedCustomCVForce_H__
@@ -18,7 +18,7 @@
 #include <string>
 #include <vector>
 
-namespace OpenMMLab {
+namespace CustomCPPForces {
 
 class ReferenceExtendedCustomCVForce {
 private:
@@ -59,6 +59,6 @@ public:
                      std::vector<OpenMM::Vec3>& forces, double* totalEnergy, std::map<std::string, double>& energyParamDerivs) const;
 };
 
-} // namespace OpenMMLab
+} // namespace CustomCPPForces
 
 #endif // __ReferenceExtendedCustomCVForce_H__

@@ -1,11 +1,11 @@
 /* -------------------------------------------------------------------------- *
- *                             OpenMM Laboratory                              *
- *                             =================                              *
+ *                          OpenMM Custom CPP Forces                          *
+ *                          ========================                          *
  *                                                                            *
- * A plugin for testing low-level code implementation for OpenMM.             *
+ *  A plugin for distributing OpenMM CustomCPPForce instances                 *
  *                                                                            *
- * Copyright (c) 2023 Charlles Abreu                                          *
- * https://github.com/craabreu/openmm-lab                                     *
+ *  Copyright (c) 2024 Charlles Abreu                                         *
+ *  https://github.com/craabreu/customcppforces                               *
  * -------------------------------------------------------------------------- */
 
 #ifdef WIN32
@@ -15,12 +15,12 @@
 #include <map>
 #include <string>
 
-extern "C" OPENMM_EXPORT void registerOpenMMLabReferenceKernelFactories();
+extern "C" OPENMM_EXPORT void registerCustomCPPForcesReferenceKernelFactories();
 
 OpenMM::ReferencePlatform platform;
 std::map<std::string, std::string> properties;
 
 void initializeTests(int argc, char* argv[]) {
-    registerOpenMMLabReferenceKernelFactories();
+    registerCustomCPPForcesReferenceKernelFactories();
     platform = dynamic_cast<OpenMM::ReferencePlatform&>(OpenMM::Platform::getPlatformByName("Reference"));
 }

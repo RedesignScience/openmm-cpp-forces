@@ -2,28 +2,28 @@
 #define OPENMM_OPENCLOPENMM_LABKERNELFACTORY_H_
 
 /* -------------------------------------------------------------------------- *
- *                             OpenMM Laboratory                              *
- *                             =================                              *
+ *                          OpenMM Custom CPP Forces                          *
+ *                          ========================                          *
  *                                                                            *
- * A plugin for testing low-level code implementation for OpenMM.             *
+ *  A plugin for distributing OpenMM CustomCPPForce instances                 *
  *                                                                            *
- * Copyright (c) 2023 Charlles Abreu                                          *
- * https://github.com/craabreu/openmm-lab                                     *
+ *  Copyright (c) 2024 Charlles Abreu                                         *
+ *  https://github.com/craabreu/customcppforces                               *
  * -------------------------------------------------------------------------- */
 
 #include "openmm/KernelFactory.h"
 
-namespace OpenMMLab {
+namespace CustomCPPForces {
 
 /**
- * This KernelFactory creates kernels for the OpenCL implementation of the OpenMMLab plugin.
+ * This KernelFactory creates kernels for the OpenCL implementation of the CustomCPPForces plugin.
  */
 
-class OpenCLOpenMMLabKernelFactory : public OpenMM::KernelFactory {
+class OpenCLCustomCPPForcesKernelFactory : public OpenMM::KernelFactory {
 public:
     OpenMM::KernelImpl* createKernelImpl(std::string name, const OpenMM::Platform& platform, OpenMM::ContextImpl& context) const;
 };
 
-} // namespace OpenMMLab
+} // namespace CustomCPPForces
 
 #endif /*OPENMM_OPENCLOPENMM_LABKERNELFACTORY_H_*/

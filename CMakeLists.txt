@@ -1,10 +1,10 @@
 #---------------------------------------------------
-# OpenMM OpenMMLab Plugin
+# OpenMM CustomCPPForces Plugin
 #----------------------------------------------------
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.17)
 
-PROJECT(OpenMMOpenMMLab VERSION 0.0.0)
+PROJECT(OpenMMCustomCPPForces VERSION 0.0.0)
 
 IF(DEFINED ENV{CONDA_PREFIX})
     SET(OPENMM_DIR $ENV{CONDA_PREFIX} CACHE PATH "Where OpenMM is installed")
@@ -61,7 +61,7 @@ ENDIF(${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
 SET(PLUGIN_SOURCE_SUBDIRS openmmapi serialization)
 
 # Set the library name
-SET(PLUGIN_LIBRARY_NAME OpenMMLab)
+SET(PLUGIN_LIBRARY_NAME CustomCPPForces)
 SET(SHARED_OPENMM_LAB_TARGET ${PLUGIN_LIBRARY_NAME})
 
 # These are all the places to search for header files which are to be part of the API.

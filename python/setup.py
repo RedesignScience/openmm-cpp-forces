@@ -5,8 +5,8 @@ import sys
 import platform
 
 openmm_dir = '@OPENMM_DIR@'
-openmmlab_header_dir = '@PLUGIN_HEADER_DIR@'
-openmmlab_library_dir = '@PLUGIN_LIBRARY_DIR@'
+customcppforces_header_dir = '@PLUGIN_HEADER_DIR@'
+customcppforces_library_dir = '@PLUGIN_LIBRARY_DIR@'
 
 # setup extra compile and link arguments on Mac
 extra_compile_args = ['-std=c++11']
@@ -20,18 +20,18 @@ os.environ['CC'] = '@CMAKE_C_COMPILER@'
 os.environ['CXX'] = '@CMAKE_CXX_COMPILER@'
 
 extension = Extension(
-    name='_openmmlab',
-    sources=['OpenMMLabWrapper.cpp'],
-    libraries=['OpenMM', 'OpenMMLab'],
-    include_dirs=[os.path.join(openmm_dir, 'include'), openmmlab_header_dir],
-    library_dirs=[os.path.join(openmm_dir, 'lib'), openmmlab_library_dir],
+    name='_customcppforces',
+    sources=['CustomCPPForcesWrapper.cpp'],
+    libraries=['OpenMM', 'CustomCPPForces'],
+    include_dirs=[os.path.join(openmm_dir, 'include'), customcppforces_header_dir],
+    library_dirs=[os.path.join(openmm_dir, 'lib'), customcppforces_library_dir],
     extra_compile_args=extra_compile_args,
     extra_link_args=extra_link_args,
 )
 
 setup(
-    name='openmmlab',
+    name='customcppforces',
     version='@CMAKE_PROJECT_VERSION@',
-    py_modules=['openmmlab'],
+    py_modules=['customcppforces'],
     ext_modules=[extension],
 )

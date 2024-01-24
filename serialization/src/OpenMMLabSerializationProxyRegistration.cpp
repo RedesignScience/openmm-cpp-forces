@@ -1,11 +1,11 @@
 /* -------------------------------------------------------------------------- *
- *                             OpenMM Laboratory                              *
- *                             =================                              *
+ *                          OpenMM Custom CPP Forces                          *
+ *                          ========================                          *
  *                                                                            *
- * A plugin for testing low-level code implementation for OpenMM.             *
+ *  A plugin for distributing OpenMM CustomCPPForce instances                 *
  *                                                                            *
- * Copyright (c) 2023 Charlles Abreu                                          *
- * https://github.com/craabreu/openmm-lab                                     *
+ *  Copyright (c) 2024 Charlles Abreu                                         *
+ *  https://github.com/craabreu/customcppforces                               *
  * -------------------------------------------------------------------------- */
 
 #ifdef WIN32
@@ -25,20 +25,20 @@
 
 #if defined(WIN32)
     #include <windows.h>
-    extern "C" OPENMM_EXPORT_OPENMM_LAB void registerOpenMMLabSerializationProxies();
+    extern "C" OPENMM_EXPORT_OPENMM_LAB void registerCustomCPPForcesSerializationProxies();
     BOOL WINAPI DllMain(HANDLE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved) {
         if (ul_reason_for_call == DLL_PROCESS_ATTACH)
-            registerOpenMMLabSerializationProxies();
+            registerCustomCPPForcesSerializationProxies();
         return TRUE;
     }
 #else
-    extern "C" void __attribute__((constructor)) registerOpenMMLabSerializationProxies();
+    extern "C" void __attribute__((constructor)) registerCustomCPPForcesSerializationProxies();
 #endif
 
-using namespace OpenMMLab;
+using namespace CustomCPPForces;
 using namespace OpenMM;
 
-extern "C" OPENMM_EXPORT_OPENMM_LAB void registerOpenMMLabSerializationProxies() {
+extern "C" OPENMM_EXPORT_OPENMM_LAB void registerCustomCPPForcesSerializationProxies() {
     SerializationProxy::registerProxy(typeid(SlicedNonbondedForce), new SlicedNonbondedForceProxy());
     SerializationProxy::registerProxy(typeid(ConcertedRMSDForce), new ConcertedRMSDForceProxy());
 }

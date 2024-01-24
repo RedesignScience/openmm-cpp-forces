@@ -1,17 +1,17 @@
-#ifndef OPENMMLAB_CUSTOMSUMMATIONIMPL_H_
-#define OPENMMLAB_CUSTOMSUMMATIONIMPL_H_
+#ifndef CUSTOMCPPFORCES_CUSTOMSUMMATIONIMPL_H_
+#define CUSTOMCPPFORCES_CUSTOMSUMMATIONIMPL_H_
 
 /* -------------------------------------------------------------------------- *
- *                             OpenMM Laboratory                              *
- *                             =================                              *
+ *                          OpenMM Custom CPP Forces                          *
+ *                          ========================                          *
  *                                                                            *
- * A plugin for testing low-level code implementation for OpenMM.             *
+ *  A plugin for distributing OpenMM CustomCPPForce instances                 *
  *                                                                            *
- * Copyright (c) 2023 Charlles Abreu                                          *
- * https://github.com/craabreu/openmm-lab                                     *
+ *  Copyright (c) 2024 Charlles Abreu                                         *
+ *  https://github.com/craabreu/customcppforces                               *
  * -------------------------------------------------------------------------- */
 
-#include "internal/windowsExportOpenMMLab.h"
+#include "internal/windowsExportCustomCPPForces.h"
 #include "openmm/Context.h"
 #include "openmm/CustomCompoundBondForce.h"
 #include "openmm/Platform.h"
@@ -24,7 +24,7 @@
 using namespace OpenMM;
 using namespace std;
 
-namespace OpenMMLab {
+namespace CustomCPPForces {
 
 class CustomSummationImpl {
 public:
@@ -56,6 +56,6 @@ private:
     bool derivativesAreDirty;
 };
 
-} // namespace OpenMMLab
+} // namespace CustomCPPForces
 
-#endif /*OPENMMLAB_CUSTOMSUMMATIONIMPL_H_*/
+#endif /*CUSTOMCPPFORCES_CUSTOMSUMMATIONIMPL_H_*/

@@ -1,4 +1,4 @@
-%module openmmlab
+%module customcppforces
 
 %import(module="openmm") "swig/OpenMMSwigHeaders.i"
 %include "swig/typemaps.i"
@@ -35,12 +35,12 @@ __version__ = "@CMAKE_PROJECT_VERSION@"
 */
 
 /*
-%pythonappend OpenMMLab::SlicedNonbondedForce::getPMEParametersInContext(
+%pythonappend CustomCPPForces::SlicedNonbondedForce::getPMEParametersInContext(
         const OpenMM::Context& context, double& alpha, int& nx, int& ny, int& nz) const %{
     val[0] = unit.Quantity(val[0], 1/unit.nanometers)
 %}
 
-%pythonappend OpenMMLab::SlicedNonbondedForce::getLJPMEParametersInContext(
+%pythonappend CustomCPPForces::SlicedNonbondedForce::getLJPMEParametersInContext(
         const OpenMM::Context& context, double& alpha, int& nx, int& ny, int& nz) const %{
     val[0] = unit.Quantity(val[0], 1/unit.nanometers)
 %}
@@ -50,7 +50,7 @@ __version__ = "@CMAKE_PROJECT_VERSION@"
  * Process collective variable when adding it.
 */
 
-%pythonprepend OpenMMLab::ExtendedCustomCVForce::addCollectiveVariable(
+%pythonprepend CustomCPPForces::ExtendedCustomCVForce::addCollectiveVariable(
     const std::string& name, OpenMM::Force* variable) %{
     if not variable.thisown:
         s = ("the %s object does not own its corresponding OpenMM object"
@@ -58,7 +58,7 @@ __version__ = "@CMAKE_PROJECT_VERSION@"
         raise Exception(s)
 %}
 
-%pythonappend OpenMMLab::ExtendedCustomCVForce::addCollectiveVariable(
+%pythonappend CustomCPPForces::ExtendedCustomCVForce::addCollectiveVariable(
     const std::string& name, OpenMM::Force* variable) %{
     variable.thisown = 0
 %}
@@ -67,7 +67,7 @@ __version__ = "@CMAKE_PROJECT_VERSION@"
  * Process tabulated function when adding it.
 */
 
-%pythonprepend OpenMMLab::ExtendedCustomCVForce::addTabulatedFunction(
+%pythonprepend CustomCPPForces::ExtendedCustomCVForce::addTabulatedFunction(
     const std::string& name, OpenMM::TabulatedFunction* function) %{
     if not function.thisown:
         s = ("the %s object does not own its corresponding OpenMM object"
@@ -75,7 +75,7 @@ __version__ = "@CMAKE_PROJECT_VERSION@"
         raise Exception(s)
 %}
 
-%pythonappend OpenMMLab::ExtendedCustomCVForce::addTabulatedFunction(
+%pythonappend CustomCPPForces::ExtendedCustomCVForce::addTabulatedFunction(
     const std::string& name, OpenMM::TabulatedFunction* function) %{
     function.thisown = 0
 %}
@@ -85,12 +85,12 @@ __version__ = "@CMAKE_PROJECT_VERSION@"
  * Converts swig maps to dicts
 */
 
-%pythonappend OpenMMLab::CustomSummation::getOverallParameters() const %{
+%pythonappend CustomCPPForces::CustomSummation::getOverallParameters() const %{
     val = dict(val)
 %}
 
 
-%pythonappend OpenMMLab::CustomSummation::getPlatformProperties() const %{
+%pythonappend CustomCPPForces::CustomSummation::getPlatformProperties() const %{
     val = dict(val)
 %}
 
@@ -107,7 +107,7 @@ __version__ = "@CMAKE_PROJECT_VERSION@"
     }
 }
 
-namespace OpenMMLab {
+namespace CustomCPPForces {
 
 %apply double& OUTPUT {double& alpha};
 %apply int& OUTPUT {int& nx};
@@ -470,12 +470,12 @@ public:
     */
 
     %extend {
-        static OpenMMLab::SlicedNonbondedForce& cast(OpenMM::Force& force) {
-            return dynamic_cast<OpenMMLab::SlicedNonbondedForce&>(force);
+        static CustomCPPForces::SlicedNonbondedForce& cast(OpenMM::Force& force) {
+            return dynamic_cast<CustomCPPForces::SlicedNonbondedForce&>(force);
         }
 
         static bool isinstance(OpenMM::Force& force) {
-            return (dynamic_cast<OpenMMLab::SlicedNonbondedForce*>(&force) != NULL);
+            return (dynamic_cast<CustomCPPForces::SlicedNonbondedForce*>(&force) != NULL);
         }
     }
 };
@@ -843,12 +843,12 @@ public:
     */
 
     %extend {
-        static OpenMMLab::ExtendedCustomCVForce& cast(OpenMM::Force& force) {
-            return dynamic_cast<OpenMMLab::ExtendedCustomCVForce&>(force);
+        static CustomCPPForces::ExtendedCustomCVForce& cast(OpenMM::Force& force) {
+            return dynamic_cast<CustomCPPForces::ExtendedCustomCVForce&>(force);
         }
 
         static bool isinstance(OpenMM::Force& force) {
-            return (dynamic_cast<OpenMMLab::ExtendedCustomCVForce*>(&force) != NULL);
+            return (dynamic_cast<CustomCPPForces::ExtendedCustomCVForce*>(&force) != NULL);
         }
     }
 };
@@ -942,7 +942,7 @@ public:
  *     different means. A kernel is added for each vertex of a unit cube. Then, the sum
  *     is evaluated for a point in the middle of the cube.
  *
- *     >>> function = openmmlab.CustomSummation(
+ *     >>> function = customcppforces.CustomSummation(
  *     ...     3,
  *     ...     "exp(-((x1-mux)^2+(y1-muy)^2+(z1-muz)^2)/(2*sigma^2))/sqrt(6.2832*sigma^2)",
  *     ...     {"sigma": 1.0},
@@ -1192,12 +1192,12 @@ public:
      * Add methods for casting a Force to an ExtendedCustomCVForce.
     */
     %extend {
-        static OpenMMLab::ConcertedRMSDForce& cast(OpenMM::Force& force) {
-            return dynamic_cast<OpenMMLab::ConcertedRMSDForce&>(force);
+        static CustomCPPForces::ConcertedRMSDForce& cast(OpenMM::Force& force) {
+            return dynamic_cast<CustomCPPForces::ConcertedRMSDForce&>(force);
         }
 
         static bool isinstance(OpenMM::Force& force) {
-            return (dynamic_cast<OpenMMLab::ConcertedRMSDForce*>(&force) != NULL);
+            return (dynamic_cast<CustomCPPForces::ConcertedRMSDForce*>(&force) != NULL);
         }
     }
 };

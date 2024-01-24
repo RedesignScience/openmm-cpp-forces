@@ -55,7 +55,7 @@ Once you do that, you can use the plugin from your Python scripts:
 
 ```py
     import openmm as mm
-    import openmmlab as nbs
+    import customcppforces as nbs
     system = mm.System()
     force = nbs.SlicedNonbondedForce(2)
     system.addForce(force)

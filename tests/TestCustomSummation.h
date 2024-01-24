@@ -13,7 +13,7 @@
 #include <iostream>
 #include <string>
 
-using namespace OpenMMLab;
+using namespace CustomCPPForces;
 using namespace OpenMM;
 using namespace std;
 

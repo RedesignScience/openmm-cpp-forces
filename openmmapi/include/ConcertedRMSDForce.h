@@ -2,23 +2,23 @@
 #define OPENMM_CONCERTEDRMSDFORCE_H_
 
 /* -------------------------------------------------------------------------- *
- *                             OpenMM Laboratory                              *
- *                             =================                              *
+ *                          OpenMM Custom CPP Forces                          *
+ *                          ========================                          *
  *                                                                            *
- * A plugin for testing low-level code implementation for OpenMM.             *
+ *  A plugin for distributing OpenMM CustomCPPForce instances                 *
  *                                                                            *
- * Copyright (c) 2024 Charlles Abreu                                          *
- * https://github.com/craabreu/openmm-lab                                     *
+ *  Copyright (c) 2024 Charlles Abreu                                         *
+ *  https://github.com/craabreu/customcppforces                               *
  * -------------------------------------------------------------------------- */
 
 #include "openmm/Force.h"
 #include "openmm/Vec3.h"
 #include <vector>
-#include "internal/windowsExportOpenMMLab.h"
+#include "internal/windowsExportCustomCPPForces.h"
 
 using namespace OpenMM;
 
-namespace OpenMMLab {
+namespace CustomCPPForces {
 
 /**
  * This is a force whose energy equals the root mean squared deviation (RMSD)
@@ -94,6 +94,6 @@ private:
     std::vector<int> particles;
 };
 
-} // namespace OpenMMLab
+} // namespace CustomCPPForces
 
 #endif /*OPENMM_CONCERTEDRMSDFORCE_H_*/

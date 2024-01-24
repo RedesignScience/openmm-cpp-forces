@@ -1,17 +1,17 @@
-#ifndef OPENMMLAB_EXTENDEDCUSTOMCVFORCE_H_
-#define OPENMMLAB_EXTENDEDCUSTOMCVFORCE_H_
+#ifndef CUSTOMCPPFORCES_EXTENDEDCUSTOMCVFORCE_H_
+#define CUSTOMCPPFORCES_EXTENDEDCUSTOMCVFORCE_H_
 
 /* -------------------------------------------------------------------------- *
- *                             OpenMM Laboratory                              *
- *                             =================                              *
+ *                          OpenMM Custom CPP Forces                          *
+ *                          ========================                          *
  *                                                                            *
- * A plugin for testing low-level code implementation for OpenMM.             *
+ *  A plugin for distributing OpenMM CustomCPPForce instances                 *
  *                                                                            *
- * Copyright (c) 2023 Charlles Abreu                                          *
- * https://github.com/craabreu/openmm-lab                                     *
+ *  Copyright (c) 2024 Charlles Abreu                                         *
+ *  https://github.com/craabreu/customcppforces                               *
  * -------------------------------------------------------------------------- */
 
-#include "internal/windowsExportOpenMMLab.h"
+#include "internal/windowsExportCustomCPPForces.h"
 
 #include "openmm/Force.h"
 #include "openmm/TabulatedFunction.h"
@@ -20,7 +20,7 @@
 
 using namespace OpenMM;
 
-namespace OpenMMLab {
+namespace CustomCPPForces {
 
 /**
  * This class supports energy functions that depend on collective variables.  To use it,
@@ -310,6 +310,6 @@ public:
     }
 };
 
-} // namespace OpenMMLab
+} // namespace CustomCPPForces
 
-#endif /*OPENMMLAB_EXTENDEDCUSTOMCVFORCE_H_*/
+#endif /*CUSTOMCPPFORCES_EXTENDEDCUSTOMCVFORCE_H_*/

@@ -1,20 +1,20 @@
 /* -------------------------------------------------------------------------- *
- *                             OpenMM Laboratory                              *
- *                             =================                              *
+ *                          OpenMM Custom CPP Forces                          *
+ *                          ========================                          *
  *                                                                            *
- * A plugin for testing low-level code implementation for OpenMM.             *
+ *  A plugin for distributing OpenMM CustomCPPForce instances                 *
  *                                                                            *
- * Copyright (c) 2023 Charlles Abreu                                          *
- * https://github.com/craabreu/openmm-lab                                     *
+ *  Copyright (c) 2024 Charlles Abreu                                         *
+ *  https://github.com/craabreu/customcppforces                               *
  * -------------------------------------------------------------------------- */
 
-#include "ReferenceOpenMMLabKernelFactory.h"
-#include "ReferenceOpenMMLabKernels.h"
+#include "ReferenceCustomCPPForcesKernelFactory.h"
+#include "ReferenceCustomCPPForcesKernels.h"
 #include "openmm/reference/ReferencePlatform.h"
 #include "openmm/internal/ContextImpl.h"
 #include "openmm/OpenMMException.h"
 
-using namespace OpenMMLab;
+using namespace CustomCPPForces;
 using namespace OpenMM;
 
 extern "C" OPENMM_EXPORT void registerPlatforms() {
@@ -24,18 +24,18 @@ extern "C" OPENMM_EXPORT void registerKernelFactories() {
     for (int i = 0; i < Platform::getNumPlatforms(); i++) {
         Platform& platform = Platform::getPlatform(i);
         if (dynamic_cast<ReferencePlatform*>(&platform) != NULL) {
-            ReferenceOpenMMLabKernelFactory* factory = new ReferenceOpenMMLabKernelFactory();
+            ReferenceCustomCPPForcesKernelFactory* factory = new ReferenceCustomCPPForcesKernelFactory();
             platform.registerKernelFactory(CalcSlicedNonbondedForceKernel::Name(), factory);
             platform.registerKernelFactory(CalcExtendedCustomCVForceKernel::Name(), factory);
         }
     }
 }
 
-extern "C" OPENMM_EXPORT void registerOpenMMLabReferenceKernelFactories() {
+extern "C" OPENMM_EXPORT void registerCustomCPPForcesReferenceKernelFactories() {
     registerKernelFactories();
 }
 
-KernelImpl* ReferenceOpenMMLabKernelFactory::createKernelImpl(std::string name, const Platform& platform, ContextImpl& context) const {
+KernelImpl* ReferenceCustomCPPForcesKernelFactory::createKernelImpl(std::string name, const Platform& platform, ContextImpl& context) const {
     ReferencePlatform::PlatformData& data = *static_cast<ReferencePlatform::PlatformData*>(context.getPlatformData());
     if (name == CalcSlicedNonbondedForceKernel::Name())
         return new ReferenceCalcSlicedNonbondedForceKernel(name, platform);

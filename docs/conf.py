@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import os
-import openmmlab
+import customcppforces
 import openmm
 
 
@@ -35,9 +35,9 @@ def create_rst_file(cls):
         ])
 
 
-create_rst_file(openmmlab.SlicedNonbondedForce)
-create_rst_file(openmmlab.ExtendedCustomCVForce)
-create_rst_file(openmmlab.CustomSummation)
+create_rst_file(customcppforces.SlicedNonbondedForce)
+create_rst_file(customcppforces.ExtendedCustomCVForce)
+create_rst_file(customcppforces.CustomSummation)
 
 extensions = [
     'sphinx.ext.autodoc',

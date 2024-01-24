@@ -2,16 +2,16 @@
 #define OPENMM_SLICEDNONBONDEDFORCE_H_
 
 /* -------------------------------------------------------------------------- *
- *                             OpenMM Laboratory                              *
- *                             =================                              *
+ *                          OpenMM Custom CPP Forces                          *
+ *                          ========================                          *
  *                                                                            *
- * A plugin for testing low-level code implementation for OpenMM.             *
+ *  A plugin for distributing OpenMM CustomCPPForce instances                 *
  *                                                                            *
- * Copyright (c) 2023 Charlles Abreu                                          *
- * https://github.com/craabreu/openmm-lab                                     *
+ *  Copyright (c) 2024 Charlles Abreu                                         *
+ *  https://github.com/craabreu/customcppforces                               *
  * -------------------------------------------------------------------------- */
 
-#include "internal/windowsExportOpenMMLab.h"
+#include "internal/windowsExportCustomCPPForces.h"
 #include "openmm/NonbondedForce.h"
 #include "openmm/internal/AssertionUtilities.h"
 #include <map>
@@ -21,7 +21,7 @@ using namespace std;
 
 #define sliceIndex(i, j) (i>j ? i*(i+1)/2+j : j*(j+1)/2+i)
 
-namespace OpenMMLab {
+namespace CustomCPPForces {
 
 class OPENMM_EXPORT_OPENMM_LAB SlicedNonbondedForce : public NonbondedForce {
 public:
@@ -96,6 +96,6 @@ public:
     }
 };
 
-} // namespace OpenMMLab
+} // namespace CustomCPPForces
 
 #endif /*OPENMM_SLICEDNONBONDEDFORCE_H_*/

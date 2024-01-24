@@ -1,15 +1,15 @@
 /* -------------------------------------------------------------------------- *
- *                             OpenMM Laboratory                              *
- *                             =================                              *
+ *                          OpenMM Custom CPP Forces                          *
+ *                          ========================                          *
  *                                                                            *
- * A plugin for testing low-level code implementation for OpenMM.             *
+ *  A plugin for distributing OpenMM CustomCPPForce instances                 *
  *                                                                            *
- * Copyright (c) 2023 Charlles Abreu                                          *
- * https://github.com/craabreu/openmm-lab                                     *
+ *  Copyright (c) 2024 Charlles Abreu                                         *
+ *  https://github.com/craabreu/customcppforces                               *
  * -------------------------------------------------------------------------- */
 
-#include "CommonOpenMMLabKernels.h"
-#include "CommonOpenMMLabKernelSources.h"
+#include "CommonCustomCPPForcesKernels.h"
+#include "CommonCustomCPPForcesKernelSources.h"
 #include "openmm/common/ContextSelector.h"
 #include "openmm/internal/ContextImpl.h"
 #include "lepton/CustomFunction.h"
@@ -19,7 +19,7 @@
 #include "lepton/ParsedExpression.h"
 #include "openmm/reference/ReferenceTabulatedFunction.h"
 
-using namespace OpenMMLab;
+using namespace CustomCPPForces;
 using namespace OpenMM;
 using namespace Lepton;
 using namespace std;
@@ -159,7 +159,7 @@ void CommonCalcExtendedCustomCVForceKernel::initialize(const System& system, con
     map<string, string> replacements;
     replacements["PARAMETER_ARGUMENTS"] = args.str();
     replacements["ADD_FORCES"] = add.str();
-    ComputeProgram program = cc.compileProgram(cc.replaceStrings(CommonOpenMMLabKernelSources::customCVForce, replacements));
+    ComputeProgram program = cc.compileProgram(cc.replaceStrings(CommonCustomCPPForcesKernelSources::customCVForce, replacements));
     copyStateKernel = program->createKernel("copyState");
     copyStateKernel->addArg(cc.getPosq());
     copyStateKernel->addArg(cc2.getPosq());

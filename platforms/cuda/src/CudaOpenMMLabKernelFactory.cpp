@@ -1,19 +1,19 @@
 /* -------------------------------------------------------------------------- *
- *                              OpenMMOpenMMLab                                   *
+ *                              OpenMMCustomCPPForces                                   *
  * -------------------------------------------------------------------------- */
 
 #include <exception>
 
-#include "CudaOpenMMLabKernelFactory.h"
-#include "CudaOpenMMLabKernels.h"
-#include "CudaParallelOpenMMLabKernels.h"
-#include "CommonOpenMMLabKernels.h"
+#include "CudaCustomCPPForcesKernelFactory.h"
+#include "CudaCustomCPPForcesKernels.h"
+#include "CudaParallelCustomCPPForcesKernels.h"
+#include "CommonCustomCPPForcesKernels.h"
 #include "openmm/cuda/CudaContext.h"
 #include "openmm/internal/windowsExport.h"
 #include "openmm/internal/ContextImpl.h"
 #include "openmm/OpenMMException.h"
 
-using namespace OpenMMLab;
+using namespace CustomCPPForces;
 using namespace OpenMM;
 
 extern "C" OPENMM_EXPORT void registerPlatforms() {
@@ -22,7 +22,7 @@ extern "C" OPENMM_EXPORT void registerPlatforms() {
 extern "C" OPENMM_EXPORT void registerKernelFactories() {
     try {
         Platform& platform = Platform::getPlatformByName("CUDA");
-        CudaOpenMMLabKernelFactory* factory = new CudaOpenMMLabKernelFactory();
+        CudaCustomCPPForcesKernelFactory* factory = new CudaCustomCPPForcesKernelFactory();
         platform.registerKernelFactory(CalcSlicedNonbondedForceKernel::Name(), factory);
         platform.registerKernelFactory(CalcExtendedCustomCVForceKernel::Name(), factory);
     }
@@ -31,7 +31,7 @@ extern "C" OPENMM_EXPORT void registerKernelFactories() {
     }
 }
 
-extern "C" OPENMM_EXPORT void registerOpenMMLabCudaKernelFactories() {
+extern "C" OPENMM_EXPORT void registerCustomCPPForcesCudaKernelFactories() {
     try {
         Platform::getPlatformByName("CUDA");
     }
@@ -41,7 +41,7 @@ extern "C" OPENMM_EXPORT void registerOpenMMLabCudaKernelFactories() {
     registerKernelFactories();
 }
 
-KernelImpl* CudaOpenMMLabKernelFactory::createKernelImpl(std::string name, const Platform& platform, ContextImpl& context) const {
+KernelImpl* CudaCustomCPPForcesKernelFactory::createKernelImpl(std::string name, const Platform& platform, ContextImpl& context) const {
     CudaPlatform::PlatformData& data = *static_cast<CudaPlatform::PlatformData*>(context.getPlatformData());
     if (data.contexts.size() > 1) {
         // We are running in parallel on multiple devices, so we may want to create a parallel kernel.

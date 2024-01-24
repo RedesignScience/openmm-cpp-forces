@@ -1,11 +1,11 @@
 #---------------------------------------------------
-# OpenMM OpenMMLab Plugin Reference Platform
+# OpenMM CustomCPPForces Plugin Reference Platform
 #----------------------------------------------------
 
 # Collect up information about the version of the OpenMM library we're building
 # and make it available to the code so it can be built into the binaries.
 
-SET(OPENMMOPENMM_LABREFERENCE_LIBRARY_NAME OpenMMLabReference)
+SET(OPENMMOPENMM_LABREFERENCE_LIBRARY_NAME CustomCPPForcesReference)
 
 SET(SHARED_TARGET ${OPENMMOPENMM_LABREFERENCE_LIBRARY_NAME})
 

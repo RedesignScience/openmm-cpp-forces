@@ -6,7 +6,7 @@ To use the plugin from your Python script, you can do:
 .. code-block:: python
 
     import openmm as mm
-    import openmmlab as mmlab
+    import customcppforces as mmlab
     system = mm.System()
     force = mmlab.SlicedNonbondedForce(2)
     system.addForce(force)
@@ -23,4 +23,4 @@ This is the implemented subclass of :OpenMM:`Force`:
 
 .. testsetup::
 
-    from openmmlab import *
+    from customcppforces import *

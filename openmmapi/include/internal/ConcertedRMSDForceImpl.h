@@ -2,13 +2,13 @@
 #define OPENMM_CONCERTEDRMSDFORCEIMPL_H_
 
 /* -------------------------------------------------------------------------- *
- *                             OpenMM Laboratory                              *
- *                             =================                              *
+ *                          OpenMM Custom CPP Forces                          *
+ *                          ========================                          *
  *                                                                            *
- * A plugin for testing low-level code implementation for OpenMM.             *
+ *  A plugin for distributing OpenMM CustomCPPForce instances                 *
  *                                                                            *
- * Copyright (c) 2024 Charlles Abreu                                          *
- * https://github.com/craabreu/openmm-lab                                     *
+ *  Copyright (c) 2024 Charlles Abreu                                         *
+ *  https://github.com/craabreu/customcppforces                               *
  * -------------------------------------------------------------------------- */
 
 #include "ConcertedRMSDForce.h"
@@ -20,7 +20,7 @@
 using namespace OpenMM;
 using namespace std;
 
-namespace OpenMMLab {
+namespace CustomCPPForces {
 
 /**
  * This is the internal implementation of ConcertedRMSDForce.
@@ -42,6 +42,6 @@ private:
     vector<Vec3> referencePos;
 };
 
-} // namespace OpenMMLab
+} // namespace CustomCPPForces
 
 #endif /*OPENMM_CONCERTEDRMSDFORCEIMPL_H_*/

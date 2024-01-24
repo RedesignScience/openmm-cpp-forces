@@ -1,14 +1,14 @@
-#ifndef OPENMMLAB_EXTENDEDCUSTOMCVFORCEIMPL_H_
-#define OPENMMLAB_EXTENDEDCUSTOMCVFORCEIMPL_H_
+#ifndef CUSTOMCPPFORCES_EXTENDEDCUSTOMCVFORCEIMPL_H_
+#define CUSTOMCPPFORCES_EXTENDEDCUSTOMCVFORCEIMPL_H_
 
 /* -------------------------------------------------------------------------- *
- *                             OpenMM Laboratory                              *
- *                             =================                              *
+ *                          OpenMM Custom CPP Forces                          *
+ *                          ========================                          *
  *                                                                            *
- * A plugin for testing low-level code implementation for OpenMM.             *
+ *  A plugin for distributing OpenMM CustomCPPForce instances                 *
  *                                                                            *
- * Copyright (c) 2023 Charlles Abreu                                          *
- * https://github.com/craabreu/openmm-lab                                     *
+ *  Copyright (c) 2024 Charlles Abreu                                         *
+ *  https://github.com/craabreu/customcppforces                               *
  * -------------------------------------------------------------------------- */
 
 #include "ExtendedCustomCVForce.h"
@@ -24,7 +24,7 @@
 
 using namespace OpenMM;
 
-namespace OpenMMLab {
+namespace CustomCPPForces {
 
 /**
  * This is the internal implementation of ExtendedCustomCVForce.
@@ -57,6 +57,6 @@ private:
     int forceGroup;  // for compatibility with OpenMM 8.0
 };
 
-} // namespace OpenMMLab
+} // namespace CustomCPPForces
 
-#endif /*OPENMMLAB_EXTENDEDCUSTOMCVFORCEIMPL_H_*/
+#endif /*CUSTOMCPPFORCES_EXTENDEDCUSTOMCVFORCEIMPL_H_*/

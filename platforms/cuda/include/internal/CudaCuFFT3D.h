@@ -2,13 +2,13 @@
 #define __OPENMM_CUDACUFFT3D_H__
 
 /* -------------------------------------------------------------------------- *
- *                             OpenMM Laboratory                              *
- *                             =================                              *
+ *                          OpenMM Custom CPP Forces                          *
+ *                          ========================                          *
  *                                                                            *
- * A plugin for testing low-level code implementation for OpenMM.             *
+ *  A plugin for distributing OpenMM CustomCPPForce instances                 *
  *                                                                            *
- * Copyright (c) 2023 Charlles Abreu                                          *
- * https://github.com/craabreu/openmm-lab                                     *
+ *  Copyright (c) 2024 Charlles Abreu                                         *
+ *  https://github.com/craabreu/customcppforces                               *
  * -------------------------------------------------------------------------- */
 
 #include "internal/CudaFFT3D.h"
@@ -17,7 +17,7 @@
 
 using namespace OpenMM;
 
-namespace OpenMMLab {
+namespace CustomCPPForces {
 
 /**
  * This class performs three dimensional Fast Fourier Transforms using VkFFT by
@@ -64,6 +64,6 @@ private:
     cufftHandle fftBackward;
 };
 
-} // namespace OpenMMLab
+} // namespace CustomCPPForces
 
 #endif // __OPENMM_CUDACUFFT3D_H__

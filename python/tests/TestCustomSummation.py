@@ -1,4 +1,4 @@
-import openmmlab as plugin
+import customcppforces as plugin
 import openmm as mm
 import pytest
 from openmm import unit

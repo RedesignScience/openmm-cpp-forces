@@ -1,11 +1,11 @@
 /* -------------------------------------------------------------------------- *
- *                             OpenMM Laboratory                              *
- *                             =================                              *
+ *                          OpenMM Custom CPP Forces                          *
+ *                          ========================                          *
  *                                                                            *
- * A plugin for testing low-level code implementation for OpenMM.             *
+ *  A plugin for distributing OpenMM CustomCPPForce instances                 *
  *                                                                            *
- * Copyright (c) 2023 Charlles Abreu                                          *
- * https://github.com/craabreu/openmm-lab                                     *
+ *  Copyright (c) 2024 Charlles Abreu                                         *
+ *  https://github.com/craabreu/customcppforces                               *
  * -------------------------------------------------------------------------- */
 
 #ifdef WIN32
@@ -14,13 +14,13 @@
 #include "openmm/cuda/CudaPlatform.h"
 #include <map>
 
-extern "C" OPENMM_EXPORT void registerOpenMMLabCudaKernelFactories();
+extern "C" OPENMM_EXPORT void registerCustomCPPForcesCudaKernelFactories();
 
 OpenMM::CudaPlatform platform;
 std::map<std::string, std::string> properties;
 
 void initializeTests(int argc, char* argv[]) {
-    registerOpenMMLabCudaKernelFactories();
+    registerCustomCPPForcesCudaKernelFactories();
     platform = dynamic_cast<OpenMM::CudaPlatform&>(OpenMM::Platform::getPlatformByName("CUDA"));
     if (argc > 1)
         properties["Precision"] = std::string(argv[1]);

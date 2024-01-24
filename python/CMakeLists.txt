@@ -1,6 +1,6 @@
-set(WRAP_FILE OpenMMLabWrapper.cpp)
-set(MODULE_NAME openmmlab)
-configure_file(openmmlab.i ${CMAKE_CURRENT_BINARY_DIR})
+set(WRAP_FILE CustomCPPForcesWrapper.cpp)
+set(MODULE_NAME customcppforces)
+configure_file(customcppforces.i ${CMAKE_CURRENT_BINARY_DIR})
 
 # Execute SWIG to generate source code for the Python module.
 
@@ -11,8 +11,8 @@ add_custom_command(
         -doxygen
         -o "${WRAP_FILE}"
         "-I${OPENMM_DIR}/include"
-        "openmmlab.i"
-    DEPENDS "openmmlab.i"
+        "customcppforces.i"
+    DEPENDS "customcppforces.i"
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
 )
 

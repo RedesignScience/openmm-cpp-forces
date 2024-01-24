@@ -1,18 +1,18 @@
-#ifndef OPENMMLAB_CUSTOMSUMMATION_H_
-#define OPENMMLAB_CUSTOMSUMMATION_H_
+#ifndef CUSTOMCPPFORCES_CUSTOMSUMMATION_H_
+#define CUSTOMCPPFORCES_CUSTOMSUMMATION_H_
 
 /* -------------------------------------------------------------------------- *
- *                             OpenMM Laboratory                              *
- *                             =================                              *
+ *                          OpenMM Custom CPP Forces                          *
+ *                          ========================                          *
  *                                                                            *
- * A plugin for testing low-level code implementation for OpenMM.             *
+ *  A plugin for distributing OpenMM CustomCPPForce instances                 *
  *                                                                            *
- * Copyright (c) 2023 Charlles Abreu                                          *
- * https://github.com/craabreu/openmm-lab                                     *
+ *  Copyright (c) 2024 Charlles Abreu                                         *
+ *  https://github.com/craabreu/customcppforces                               *
  * -------------------------------------------------------------------------- */
 
 #include "internal/CustomSummationImpl.h"
-#include "internal/windowsExportOpenMMLab.h"
+#include "internal/windowsExportCustomCPPForces.h"
 #include "openmm/Platform.h"
 #include "lepton/CustomFunction.h"
 
@@ -24,7 +24,7 @@ using namespace OpenMM;
 using namespace Lepton;
 using namespace std;
 
-namespace OpenMMLab {
+namespace CustomCPPForces {
 
 /**
  * This class allows users to define a custom function that can be evaluated in an
@@ -256,6 +256,6 @@ private:
     CustomSummationImpl *impl;
 };
 
-} // namespace OpenMMLab
+} // namespace CustomCPPForces
 
-#endif /*OPENMMLAB_CUSTOMSUMMATION_H_*/
+#endif /*CUSTOMCPPFORCES_CUSTOMSUMMATION_H_*/
