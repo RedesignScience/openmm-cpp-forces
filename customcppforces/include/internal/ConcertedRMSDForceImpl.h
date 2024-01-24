@@ -37,8 +37,7 @@ public:
     void updateParametersInContext(ContextImpl& context);
 private:
     const ConcertedRMSDForce& owner;
-    int numParticles;
-    vector<int> particles;
+    vector<vector<int>> groups;
     vector<Vec3> referencePos;
 };
 

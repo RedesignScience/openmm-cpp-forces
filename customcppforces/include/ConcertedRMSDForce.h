@@ -11,12 +11,15 @@
  *  https://github.com/craabreu/customcppforces                               *
  * -------------------------------------------------------------------------- */
 
-#include "openmm/Force.h"
-#include "openmm/Vec3.h"
-#include <vector>
 #include "internal/windowsExportCustomCPPForces.h"
 
+#include "openmm/Force.h"
+#include "openmm/Vec3.h"
+#include "openmm/internal/AssertionUtilities.h"
+#include <vector>
+
 using namespace OpenMM;
+using namespace std;
 
 namespace CustomCPPForces {
 
@@ -42,34 +45,40 @@ public:
      *                            from.  The length of this vector must equal the
      *                            number of particles in the system, even if not
      *                            all particles are used in computing the RMSD.
-     * @param particles           the indices of the particles to use when computing
-     *                            the RMSD.  If this is empty (the default), all
-     *                            particles in the system will be used.
      */
-    explicit ConcertedRMSDForce(const std::vector<Vec3>& referencePositions,
-                       const std::vector<int>& particles=std::vector<int>());
+    explicit ConcertedRMSDForce(const vector<Vec3>& referencePositions);
     /**
      * Get the reference positions to compute the deviation from.
      */
-    const std::vector<Vec3>& getReferencePositions() const {
+    const vector<Vec3>& getReferencePositions() const {
         return referencePositions;
     }
     /**
      * Set the reference positions to compute the deviation from.
      */
-    void setReferencePositions(const std::vector<Vec3>& positions);
+    void setReferencePositions(const vector<Vec3>& positions);
+    /**
+     * Add a group of particles to include in the concerted RMSD calculation.
+     *
+     * @param particles    the indices of the particles to include
+     *
+     * @return the index of the group that was added
+     */
+    int addGroup(const vector<int>& particles);
+    /**
+     * Get the number of groups of particles whose RMSD is computed.
+     */
+    int getNumGroups() const;
     /**
      * Get the indices of the particles to use when computing the RMSD.  If this
      * is empty, all particles in the system will be used.
      */
-    const std::vector<int>& getParticles() const {
-        return particles;
-    }
+    const vector<int>& getGroup(int index) const;
     /**
      * Set the indices of the particles to use when computing the RMSD.  If this
      * is empty, all particles in the system will be used.
      */
-    void setParticles(const std::vector<int>& particles);
+    void setGroup(int index, const vector<int>& particles);
     /**
      * Update the reference positions and particle indices in a Context to match those stored
      * in this Force object.  This method provides an efficient method to update certain parameters
@@ -90,8 +99,8 @@ public:
 protected:
     ForceImpl* createImpl() const;
 private:
-    std::vector<Vec3> referencePositions;
-    std::vector<int> particles;
+    vector<Vec3> referencePositions;
+    vector<vector<int>> groups;
 };
 
 } // namespace CustomCPPForces

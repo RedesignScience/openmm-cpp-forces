@@ -28,7 +28,8 @@ void testSerialization() {
     vector<int> particles;
     for (int i = 0; i < 5; i++)
         particles.push_back(i*i);
-    ConcertedRMSDForce force(refPos, particles);
+    ConcertedRMSDForce force(refPos);
+    force.addGroup(particles);
     force.setForceGroup(3);
     force.setName("custom name");
 
@@ -46,9 +47,9 @@ void testSerialization() {
     ASSERT_EQUAL(force.getReferencePositions().size(), force2.getReferencePositions().size());
     for (int i = 0; i < force.getReferencePositions().size(); i++)
         ASSERT_EQUAL_VEC(force.getReferencePositions()[i], force2.getReferencePositions()[i], 0.0);
-    ASSERT_EQUAL(force.getParticles().size(), force2.getParticles().size());
-    for (int i = 0; i < force.getParticles().size(); i++)
-        ASSERT_EQUAL(force.getParticles()[i], force2.getParticles()[i]);
+    ASSERT_EQUAL(force.getGroup(0).size(), force2.getGroup(0).size());
+    for (int i = 0; i < force.getGroup(0).size(); i++)
+        ASSERT_EQUAL(force.getGroup(0)[i], force2.getGroup(0)[i]);
 }
 
 int main() {

@@ -11,20 +11,37 @@
 #include "ConcertedRMSDForce.h"
 #include "internal/ConcertedRMSDForceImpl.h"
 
+#include "openmm/internal/AssertionUtilities.h"
+
 using namespace CustomCPPForces;
 using namespace OpenMM;
 using namespace std;
 
-ConcertedRMSDForce::ConcertedRMSDForce(const vector<Vec3>& referencePositions, const vector<int>& particles) :
-        referencePositions(referencePositions), particles(particles) {
+ConcertedRMSDForce::ConcertedRMSDForce(const vector<Vec3>& referencePositions) :
+        referencePositions(referencePositions) {
 }
 
 void ConcertedRMSDForce::setReferencePositions(const std::vector<Vec3>& positions) {
     referencePositions = positions;
 }
 
-void ConcertedRMSDForce::setParticles(const std::vector<int>& particles) {
-    this->particles = particles;
+int ConcertedRMSDForce::addGroup(const vector<int>& particles) {
+    groups.push_back(particles);
+    return groups.size()-1;
+}
+
+int ConcertedRMSDForce::getNumGroups() const {
+    return groups.size();
+}
+
+const vector<int>& ConcertedRMSDForce::getGroup(int index) const {
+    ASSERT_VALID_INDEX(index, groups);
+    return groups[index];
+}
+
+void ConcertedRMSDForce::setGroup(int index, const std::vector<int>& particles) {
+    ASSERT_VALID_INDEX(index, groups);
+    groups[index] = particles;
 }
 
 void ConcertedRMSDForce::updateParametersInContext(Context& context) {

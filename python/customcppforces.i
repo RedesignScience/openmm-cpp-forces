@@ -84,12 +84,12 @@ public:
      * Get the indices of the particles to use when computing the RMSD.  If this
      * is empty, all particles in the system will be used.
      */
-    const std::vector<int>& getParticles() const;
+    const std::vector<int>& getGroup(0) const;
     /**
      * Set the indices of the particles to use when computing the RMSD.  If this
      * is empty, all particles in the system will be used.
      */
-    void setParticles(const std::vector<int>& particles);
+    void setGroup(0, const std::vector<int>& particles);
     /**
      * Update the reference positions and particle indices in a Context to match those stored
      * in this Force object.  This method provides an efficient method to update certain parameters

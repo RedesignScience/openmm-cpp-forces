@@ -1,11 +1,11 @@
 /* -------------------------------------------------------------------------- *
- *                          OpenMM Custom CPP Forces                          *
- *                          ========================                          *
+ *                             OpenMM Laboratory                              *
+ *                             =================                              *
  *                                                                            *
- *  A plugin for distributing OpenMM CustomCPPForce instances                 *
+ * A plugin for testing low-level code implementation for OpenMM.             *
  *                                                                            *
- *  Copyright (c) 2024 Charlles Abreu                                         *
- *  https://github.com/craabreu/customcppforces                               *
+ * Copyright (c) 2024 Charlles Abreu                                          *
+ * https://github.com/craabreu/openmm-lab                                     *
  * -------------------------------------------------------------------------- */
 
 #include "ConcertedRMSDForceProxy.h"
@@ -31,7 +31,7 @@ void ConcertedRMSDForceProxy::serialize(const void* object, SerializationNode& n
     for (const Vec3& pos : force.getReferencePositions())
        positionsNode.createChildNode("Position").setDoubleProperty("x", pos[0]).setDoubleProperty("y", pos[1]).setDoubleProperty("z", pos[2]);
     SerializationNode& particlesNode = node.createChildNode("Particles");
-    for (int i : force.getParticles())
+    for (int i : force.getGroup(0))
        particlesNode.createChildNode("Particle").setIntProperty("index", i);
 }
 
@@ -47,7 +47,8 @@ void* ConcertedRMSDForceProxy::deserialize(const SerializationNode& node) const 
         vector<int> particles;
         for (auto& particle : node.getChildNode("Particles").getChildren())
             particles.push_back(particle.getIntProperty("index"));
-        force = new ConcertedRMSDForce(positions, particles);
+        force = new ConcertedRMSDForce(positions);
+        force->addGroup(particles);
         force->setForceGroup(node.getIntProperty("forceGroup", 0));
         force->setName(node.getStringProperty("name", force->getName()));
         return force;

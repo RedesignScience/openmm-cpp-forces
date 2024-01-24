@@ -32,11 +32,12 @@ void ConcertedRMSDForceImpl::initialize(ContextImpl& context) {
             "RMSDForce: Number of reference positions does not equal number of particles in the System"
         );
 
-    particles = owner.getParticles();
-    numParticles = particles.size();
+    groups.resize(owner.getNumGroups());
+    for (int i = 0; i < owner.getNumGroups(); i++)
+        groups[i] = owner.getGroup(i);
 
     set<int> distinctParticles;
-    for (int i : particles) {
+    for (int i : groups[0]) {
         if (i < 0 || i >= systemSize) {
             stringstream msg;
             msg << "ConcertedRMSDForce: Illegal particle index for RMSD: ";
@@ -54,9 +55,9 @@ void ConcertedRMSDForceImpl::initialize(ContextImpl& context) {
 
     referencePos = owner.getReferencePositions();
     Vec3 center(0.0, 0.0, 0.0);
-    for (int i : particles)
+    for (int i : groups[0])
         center += referencePos[i];
-    center /= numParticles;
+    center /= groups[0].size();
     for (Vec3& p : referencePos)
         p -= center;
 }
@@ -67,20 +68,20 @@ double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
     // the centroid from the atom positions.  The reference positions have already been centered.
 
     Vec3 center(0.0, 0.0, 0.0);
-    for (int i : particles)
+    for (int i : groups[0])
         center += positions[i];
-    center /= numParticles;
-    vector<Vec3> centeredPos(numParticles);
-    for (int i = 0; i < numParticles; i++)
-        centeredPos[i] = positions[particles[i]] - center;
+    center /= groups[0].size();
+    vector<Vec3> centeredPos(groups[0].size());
+    for (int i = 0; i < groups[0].size(); i++)
+        centeredPos[i] = positions[groups[0][i]] - center;
 
     // Compute the correlation matrix.
 
     double R[3][3] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
     for (int i = 0; i < 3; i++)
         for (int j = 0; j < 3; j++)
-            for (int k = 0; k < numParticles; k++) {
-                int index = particles[k];
+            for (int k = 0; k < groups[0].size(); k++) {
+                int index = groups[0][k];
                 R[i][j] += centeredPos[k][i]*referencePos[index][j];
             }
 
@@ -118,11 +119,11 @@ double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
     // Compute the RMSD.
 
     double sum = 0.0;
-    for (int i = 0; i < numParticles; i++) {
-        int index = particles[i];
+    for (int i = 0; i < groups[0].size(); i++) {
+        int index = groups[0][i];
         sum += centeredPos[i].dot(centeredPos[i]) + referencePos[index].dot(referencePos[index]);
     }
-    double msd = (sum - 2*values[3])/numParticles;
+    double msd = (sum - 2*values[3])/groups[0].size();
     if (msd < 1e-20) {
         // The particles are perfectly aligned, so all the forces should be zero.
         // Numerical error can lead to NaNs, so just return 0 now.
@@ -143,12 +144,12 @@ double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
 
     // Rotate the reference positions and compute the forces.
 
-    for (int i = 0; i < numParticles; i++) {
-        const Vec3& p = referencePos[particles[i]];
+    for (int i = 0; i < groups[0].size(); i++) {
+        const Vec3& p = referencePos[groups[0][i]];
         Vec3 rotatedRef(U[0][0]*p[0] + U[1][0]*p[1] + U[2][0]*p[2],
                         U[0][1]*p[0] + U[1][1]*p[1] + U[2][1]*p[2],
                         U[0][2]*p[0] + U[1][2]*p[1] + U[2][2]*p[2]);
-        forces[particles[i]] = -(centeredPos[i] - rotatedRef) / (rmsd*numParticles);
+        forces[groups[0][i]] = -(centeredPos[i] - rotatedRef) / (rmsd*groups[0].size());
     }
     return rmsd;
 }
@@ -156,16 +157,17 @@ double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
 void ConcertedRMSDForceImpl::updateParametersInContext(ContextImpl& context) {
     if (referencePos.size() != owner.getReferencePositions().size())
         throw OpenMMException("updateParametersInContext: The number of reference positions has changed");
-    particles = owner.getParticles();
-    if (particles.size() == 0)
+    groups.resize(owner.getNumGroups());
+    for (int i = 0; i < owner.getNumGroups(); i++)
+        groups[i] = owner.getGroup(i);
+    if (groups[0].size() == 0)
         for (int i = 0; i < referencePos.size(); i++)
-            particles.push_back(i);
-    numParticles = particles.size();
+            groups[0].push_back(i);
     referencePos = owner.getReferencePositions();
     Vec3 center(0.0, 0.0, 0.0);
-    for (int i : particles)
+    for (int i : groups[0])
         center += referencePos[i];
-    center /= numParticles;
+    center /= groups[0].size();
     for (Vec3& p : referencePos)
         p -= center;
     context.systemChanged();
