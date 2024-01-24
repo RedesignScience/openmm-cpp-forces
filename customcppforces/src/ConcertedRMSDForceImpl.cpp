@@ -59,14 +59,15 @@ void ConcertedRMSDForceImpl::updateParameters(int systemSize) {
             distinctParticles.insert(i);
         }
 
-    referencePos = owner.getReferencePositions();
+    referencePos.resize(0);
+    const vector<Vec3>& positions = owner.getReferencePositions();
     for (auto& group : groups) {
         Vec3 center(0.0, 0.0, 0.0);
         for (int i : group)
-            center += referencePos[i];
+            center += positions[i];
         center /= group.size();
         for (int i : group)
-            referencePos[i] -= center;
+            referencePos.push_back(positions[i] - center);
     }
 }
 
@@ -80,16 +81,16 @@ double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
     // "Using quaternions to calculate RMSD" (doi: 10.1002/jcc.20110).  First subtract
     // the centroid from the atom positions.  The reference positions have already been centered.
 
-    vector<Vec3> centeredPos(referencePos.size());
-    int numParticles = 0;
+    int numParticles = referencePos.size();
+    vector<Vec3> centeredPos(numParticles);
+    int index = 0;
     for (auto& group : groups) {
         Vec3 center(0.0, 0.0, 0.0);
         for (int i : group)
             center += positions[i];
         center /= group.size();
-        numParticles += group.size();
         for (int i : group)
-            centeredPos[i] = positions[i] - center;
+            centeredPos[index++] = positions[i] - center;
     }
 
     // Compute the correlation matrix.
@@ -97,9 +98,8 @@ double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
     double R[3][3] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
     for (int i = 0; i < 3; i++)
         for (int j = 0; j < 3; j++)
-            for (auto& group : groups)
-                for (int index : group)
-                    R[i][j] += centeredPos[index][i]*referencePos[index][j];
+            for (int index = 0; index < numParticles; index++)
+                R[i][j] += centeredPos[index][i]*referencePos[index][j];
 
     // Compute the F matrix.
 
@@ -136,7 +136,7 @@ double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
 
     double sum = 0.0;
     for (auto& group : groups)
-        for (int index : group)
+        for (int index = 0; index < group.size(); index++)
             sum += centeredPos[index].dot(centeredPos[index]) + referencePos[index].dot(referencePos[index]);
 
     double msd = (sum - 2*values[3])/numParticles;
@@ -160,13 +160,15 @@ double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
 
     // Rotate the reference positions and compute the forces.
 
+    index = 0;
     for (auto& group : groups)
-        for (int index : group) {
+        for (int i : group) {
             const Vec3& p = referencePos[index];
             Vec3 rotatedRef(U[0][0]*p[0] + U[1][0]*p[1] + U[2][0]*p[2],
                             U[0][1]*p[0] + U[1][1]*p[1] + U[2][1]*p[2],
                             U[0][2]*p[0] + U[1][2]*p[1] + U[2][2]*p[2]);
-            forces[index] = -(centeredPos[index] - rotatedRef) / (rmsd*groups[0].size());
+            forces[i] = -(centeredPos[index] - rotatedRef) / (rmsd*groups[0].size());
+            index++;
     }
     return rmsd;
 }
