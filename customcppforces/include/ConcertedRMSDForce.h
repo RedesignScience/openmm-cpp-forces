@@ -24,8 +24,8 @@ using namespace std;
 namespace CustomCPPForces {
 
 /**
- * This is a force whose energy equals the root mean squared deviation (RMSD)
- * between the current coordinates and a reference structure.  It is intended for
+ * This is a force whose energy equals a special type of root mean squared deviation
+ * (RMSD) between the current coordinates and a reference structure.  It is intended for
  * use with CustomCVForce.  You will not normally want a force that exactly equals
  * the RMSD, but there are many situations where it is useful to have a restraining
  * or biasing force that depends on the RMSD in some way.
@@ -41,10 +41,10 @@ public:
     /**
      * Create an ConcertedRMSDForce.
      *
-     * @param referencePositions  the reference positions to compute the deviation
-     *                            from.  The length of this vector must equal the
-     *                            number of particles in the system, even if not
-     *                            all particles are used in computing the RMSD.
+     * @param referencePositions  the reference positions to compute the deviation from.
+     *                            The length of this vector must equal the number of
+     *                            particles in the system, even if not all particles are
+     *                            used in computing the Concerted RMSD.
      */
     explicit ConcertedRMSDForce(const vector<Vec3>& referencePositions);
     /**
@@ -55,10 +55,15 @@ public:
     }
     /**
      * Set the reference positions to compute the deviation from.
+     *
+     * @param positions    the reference positions to compute the deviation from.
+     *                     The length of this vector must equal the number of
+     *                     particles in the system, even if not all particles are
+     *                     used in computing the concerted RMSD.
      */
     void setReferencePositions(const vector<Vec3>& positions);
     /**
-     * Add a group of particles to include in the concerted RMSD calculation.
+     * Add a group of particles to be included in the concerted RMSD calculation.
      *
      * @param particles    the indices of the particles to include
      *
@@ -66,24 +71,24 @@ public:
      */
     int addGroup(const vector<int>& particles);
     /**
-     * Get the number of groups of particles whose RMSD is computed.
+     * Get the number of particle groups included in the concerted RMSD calculation.
      */
     int getNumGroups() const;
     /**
-     * Get the indices of the particles to use when computing the RMSD.  If this
-     * is empty, all particles in the system will be used.
+     * Get the particles of a group included in the concerted RMSD calculation.
+     *
+     * @param index    the index of the group whose particles are to be retrieved
      */
     const vector<int>& getGroup(int index) const;
     /**
-     * Set the indices of the particles to use when computing the RMSD.  If this
-     * is empty, all particles in the system will be used.
+     * Set the particles of a group included in the concerted RMSD calculation.
      */
     void setGroup(int index, const vector<int>& particles);
     /**
-     * Update the reference positions and particle indices in a Context to match those stored
-     * in this Force object.  This method provides an efficient method to update certain parameters
+     * Update the reference positions and particle groups in a Context to match those stored
+     * in this Force object.  This method provides an efficient way to update these parameters
      * in an existing Context without needing to reinitialize it.  Simply call setReferencePositions()
-     * and setParticles() to modify this object's parameters, then call updateParametersInContext()
+     * and setGroup() to modify this object's parameters, then call updateParametersInContext()
      * to copy them over to the Context.
      */
     void updateParametersInContext(Context& context);
