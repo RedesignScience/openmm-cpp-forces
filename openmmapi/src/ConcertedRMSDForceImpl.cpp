@@ -12,7 +12,7 @@
 
 #include "openmm/internal/CustomCPPForceImpl.h"
 #include "openmm/internal/ContextImpl.h"
-#include "jama/include/jama_eig.h"
+#include "jama/jama_eig.h"
 #include <vector>
 #include <set>
 #include <sstream>
