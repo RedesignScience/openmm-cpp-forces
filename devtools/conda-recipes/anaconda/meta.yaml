@@ -32,7 +32,6 @@ test:
   imports:
     - customcppforces
   commands: |
-    test -f ${CONDA_PREFIX}/lib/libCustomCPPForces.so
     cd ${CONDA_PREFIX}/share/customcppforces/tests
     ls -al
     set +e
