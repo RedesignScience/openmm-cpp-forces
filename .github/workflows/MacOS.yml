@@ -80,5 +80,5 @@ jobs:
       - name: "Run Python test"
         shell: bash -l {0}
         run: |
-          cd build/python/customcppforces/tests
+          cd python/customcppforces/tests
           pytest --verbose Test*
