@@ -23,7 +23,7 @@ os.environ['CXX'] = '@CMAKE_CXX_COMPILER@'
 setup(
     ext_modules=[
         Extension(
-            name=os.path.join(module_dir, '_@MODULE_NAME@'),
+            name='@MODULE_NAME@._@MODULE_NAME@',
             sources=[os.path.join(module_dir, '@WRAP_FILE@')],
             libraries=['OpenMM', '@PLUGIN_LIBRARY_NAME@'],
             include_dirs=[os.path.join(openmm_dir, 'include'), header_dir],
