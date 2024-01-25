@@ -84,4 +84,4 @@ jobs:
         shell: bash -l {0}
         run: |
           cd build/python
-          pytest --verbose
+          pytest
