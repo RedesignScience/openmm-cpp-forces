@@ -18,7 +18,7 @@ requirements:
     - openmm >=8.1
     - {{ compiler('cxx') }}
     - cmake
-    - ninja
+    - make
     - setuptools
     - pip
   host:
@@ -29,8 +29,8 @@ requirements:
     - {{ pin_compatible('openmm', max_pin='x.x') }}
 
 test:
-  # imports:
-  #   - customcppforces
+  imports:
+    - customcppforces
   commands: |
     test -f ${CONDA_PREFIX}/lib/libCustomCPPForces.so
     cd ${CONDA_PREFIX}/share/customcppforces/tests

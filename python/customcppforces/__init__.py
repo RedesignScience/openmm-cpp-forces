@@ -1,1 +1,1 @@
-from .@MODULE_NAME@ import *
+from @MODULE_NAME@.@MODULE_NAME@ import *
