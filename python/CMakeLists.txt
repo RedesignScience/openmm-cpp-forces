@@ -3,7 +3,7 @@ set(WRAP_FILE CustomCPPForcesWrapper.cpp)
 
 # Compile the Python module.
 
-add_custom_target(PythonInstall DEPENDS PythonWrapper ${SHARED_CUSTOM_CPP_FORCES_TARGET})
+add_custom_target(PythonInstall DEPENDS ${SHARED_CUSTOM_CPP_FORCES_TARGET} PythonWrapper)
 set(PLUGIN_HEADER_DIR "${CMAKE_SOURCE_DIR}/customcppforces/include")
 set(PLUGIN_LIBRARY_DIR "${CMAKE_BINARY_DIR}")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/pyproject.toml ${CMAKE_CURRENT_BINARY_DIR})
