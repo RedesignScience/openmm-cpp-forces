@@ -5,6 +5,7 @@ import platform
 openmm_dir = '@OPENMM_DIR@'
 header_dir = '@PLUGIN_HEADER_DIR@'
 library_dir = '@PLUGIN_HEADER_DIR@'
+module_dir = '@MODULE_NAME@'
 
 # setup extra compile and link arguments on Mac
 extra_compile_args = ['-std=c++17']
@@ -19,19 +20,16 @@ if platform.system() == 'Darwin':
 os.environ['CC'] = '@CMAKE_C_COMPILER@'
 os.environ['CXX'] = '@CMAKE_CXX_COMPILER@'
 
-extension = Extension(
-    name='_customcppforces',
-    sources=['CustomCPPForcesWrapper.cpp'],
-    libraries=['OpenMM', 'CustomCPPForces'],
-    include_dirs=[os.path.join(openmm_dir, 'include'), header_dir],
-    library_dirs=[os.path.join(openmm_dir, 'lib'), library_dir],
-    extra_compile_args=extra_compile_args,
-    extra_link_args=extra_link_args,
-)
-
 setup(
-    name='customcppforces',
-    version='@PROJECT_VERSION@',
-    py_modules=['customcppforces'],
-    ext_modules=[extension],
+    ext_modules=[
+        Extension(
+            name=os.path.join(module_dir, '_@MODULE_NAME@'),
+            sources=[os.path.join(module_dir, '@WRAP_FILE@')],
+            libraries=['OpenMM', '@PLUGIN_LIBRARY_NAME@'],
+            include_dirs=[os.path.join(openmm_dir, 'include'), header_dir],
+            library_dirs=[os.path.join(openmm_dir, 'lib'), library_dir],
+            extra_compile_args=extra_compile_args,
+            extra_link_args=extra_link_args,
+        )
+    ],
 )

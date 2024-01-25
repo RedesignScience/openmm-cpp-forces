@@ -5,42 +5,58 @@ package:
   version: {{ plugin_version }}
 
 source:
-  git_url: ../../../
+  git_url: ../../..
 
 build:
-  noarch: python
   number: 0
-  rpaths:
-    - lib/
 
 requirements:
   build:
-    - numpy >=1.19
-    - swig <4.1
-    - openmm >=8.1
-    - gxx_linux-64
-    - cmake
-    - make
-  host:
-    - swig <4.1
-    - openmm >=8.1
     - python
+    - swig <4.1
+    - doxygen
+    - openmm >=8.1
+    - {{ compiler('cxx') }}
+    - cmake
+    - ninja
     - setuptools
     - pip
+  host:
+    - python
+    - openmm >=8.1
   run:
     - python
     - {{ pin_compatible('openmm', max_pin='x.x') }}
 
 test:
-  imports:
-    - customcppforces
+  # imports:
+  #   - customcppforces
+  commands: |
+    test -f ${CONDA_PREFIX}/lib/libCustomCPPForces.so
+    cd ${CONDA_PREFIX}/share/customcppforces/tests
+    ls -al
+    set +e
+    summary=""
+    exitcode=0
+    for f in Test*; do
+      echo "Running $f..."
+      ./${f}
+      thisexitcode=$?
+      summary+="\n${f}: "
+      if [[ $thisexitcode == 0 ]]; then summary+="OK"; else summary+="FAILED"; fi
+      ((exitcode+=$thisexitcode))
+    done
+    echo "-------"
+    echo "Summary"
+    echo "-------"
+    echo -e "${summary}"
+    exit $exitcode
 
 about:
   home: https://github.com/craabreu/customcppforces
   summary: Platform-agnostic forces for OpenMM
   license: MIT
-  license_family: MIT
-  license_file: LICENSE
+  license_file: LICENSE.md
   doc_url: https://craabreu.github.io/customcppforces
   dev_url: https://github.com/craabreu/customcppforces
 
