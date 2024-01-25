@@ -64,7 +64,8 @@ jobs:
         run: |
           cd build
           make -j2 install
-          make -j2 PythonInstall
+          make -j2 PythonWrapper
+          pip install --no-deps -e python/
 
       - name: "List plugins"
         shell: bash -l {0}
@@ -80,5 +81,5 @@ jobs:
       - name: "Run Python test"
         shell: bash -l {0}
         run: |
-          cd python/customcppforces/tests
+          cd build/python
           pytest --verbose Test*
