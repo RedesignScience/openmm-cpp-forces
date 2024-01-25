@@ -1,0 +1,49 @@
+{% set plugin_version = environ['PLUGIN_VERSION'][1:] %}
+
+package:
+  name: customcppforces
+  version: {{ plugin_version }}
+
+source:
+  git_url: ../../../
+
+build:
+  noarch: python
+  number: 0
+  rpaths:
+    - lib/
+
+requirements:
+  build:
+    - numpy >=1.19
+    - swig <4.1
+    - openmm >=8.1
+    - gxx_linux-64
+    - cmake
+    - make
+  host:
+    - swig <4.1
+    - openmm >=8.1
+    - python
+    - setuptools
+    - pip
+  run:
+    - python
+    - {{ pin_compatible('openmm', max_pin='x.x') }}
+
+test:
+  imports:
+    - customcppforces
+
+about:
+  home: https://github.com/craabreu/customcppforces
+  summary: Platform-agnostic forces for OpenMM
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  doc_url: https://craabreu.github.io/customcppforces
+  dev_url: https://github.com/craabreu/customcppforces
+
+extra:
+  recipe-maintainers:
+    - craabreu
