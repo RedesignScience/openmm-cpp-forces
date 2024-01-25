@@ -35,3 +35,8 @@ where = ["."]
 customcppforces = [
     "py.typed"
 ]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-v -ra --doctest-modules"
+testpaths = ["customcppforces"]
