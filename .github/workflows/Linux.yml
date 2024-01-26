@@ -54,7 +54,7 @@ jobs:
 
       - name: "List conda packages"
         shell: bash -l {0}
-        run: mamba list
+        run: micromamba list
 
       - name: "Configure"
         shell: bash -l {0}
