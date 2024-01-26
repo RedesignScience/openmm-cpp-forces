@@ -1,4 +1,4 @@
-%module customcppforces
+%module openmmcppforces
 
 %import(module="openmm") "swig/OpenMMSwigHeaders.i"
 %include "swig/typemaps.i"
@@ -40,7 +40,7 @@ __version__ = "@CMAKE_PROJECT_VERSION@"
     }
 }
 
-namespace CustomCPPForces {
+namespace OpenMMCPPForces {
 
 /**
  * This is a force whose energy equals a special type of root mean squared deviation
@@ -141,12 +141,12 @@ public:
      * Add methods for casting a Force to an ExtendedCustomCVForce.
     */
     %extend {
-        static CustomCPPForces::ConcertedRMSDForce& cast(OpenMM::Force& force) {
-            return dynamic_cast<CustomCPPForces::ConcertedRMSDForce&>(force);
+        static OpenMMCPPForces::ConcertedRMSDForce& cast(OpenMM::Force& force) {
+            return dynamic_cast<OpenMMCPPForces::ConcertedRMSDForce&>(force);
         }
 
         static bool isinstance(OpenMM::Force& force) {
-            return (dynamic_cast<CustomCPPForces::ConcertedRMSDForce*>(&force) != NULL);
+            return (dynamic_cast<OpenMMCPPForces::ConcertedRMSDForce*>(&force) != NULL);
         }
     }
 };

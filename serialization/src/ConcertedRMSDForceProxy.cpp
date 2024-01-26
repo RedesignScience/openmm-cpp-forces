@@ -15,7 +15,7 @@
 #include "openmm/Force.h"
 #include <sstream>
 
-using namespace CustomCPPForces;
+using namespace OpenMMCPPForces;
 using namespace OpenMM;
 using namespace std;
 

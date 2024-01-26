@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "customcppforces"
+name = "openmmcppforces"
 description = "Platform-agnostic OpenMM Forces"
 version = "@PROJECT_VERSION@"
 readme = "README.md"
@@ -32,11 +32,11 @@ namespaces = false
 where = ["."]
 
 [tool.setuptools.package-data]
-customcppforces = [
+openmmcppforces = [
     "py.typed"
 ]
 
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = "-v -ra --doctest-modules"
-testpaths = ["customcppforces"]
+testpaths = ["openmmcppforces"]

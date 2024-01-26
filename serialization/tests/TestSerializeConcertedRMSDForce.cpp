@@ -1,11 +1,11 @@
 /* -------------------------------------------------------------------------- *
- *                          OpenMM Custom CPP Forces                          *
- *                          ========================                          *
+ *                              OpenMM CPP Forces                             *
+ *                              =================                             *
  *                                                                            *
- *  A plugin for distributing OpenMM CustomCPPForce instances                 *
+ *  A plugin for distributing platform-agnostic OpenMM Forces                 *
  *                                                                            *
  *  Copyright (c) 2024 Charlles Abreu                                         *
- *  https://github.com/craabreu/customcppforces                               *
+ *  https://github.com/craabreu/openmm-cpp-forces                               *
  * -------------------------------------------------------------------------- */
 
 #include "ConcertedRMSDForce.h"
@@ -15,7 +15,7 @@
 #include <iostream>
 #include <sstream>
 
-using namespace CustomCPPForces;
+using namespace OpenMMCPPForces;
 using namespace OpenMM;
 using namespace std;
 
