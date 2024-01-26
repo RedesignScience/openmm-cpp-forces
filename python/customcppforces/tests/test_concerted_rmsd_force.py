@@ -1,6 +1,6 @@
 import math
 
-import customcppforces as plugin
+import customcppforces
 import numpy as np
 import openmm as mm
 import pytest
