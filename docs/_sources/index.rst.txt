@@ -1,16 +1,16 @@
 ========================
-CustomCPPForces
+OpenMMCPPForces
 ========================
 
 .. image:: https://badgen.net/badge/icon/github?icon=github&label
-   :target: https://github.com/craabreu/customcppforces
+   :target: https://github.com/craabreu/openmm-cpp-forces
 
 .. image:: https://img.shields.io/badge/License-MIT-green.svg
-   :target: https://github.com/craabreu/customcppforces/blob/main/LICENSE.md
+   :target: https://github.com/craabreu/openmm-cpp-forces/blob/main/LICENSE.md
 
 .. raw:: html
 
-   <a class="github-button" href="https://github.com/craabreu/customcppforces" data-show-count="true" aria-label="Star craabreu/customcppforces on GitHub">Star</a>
+   <a class="github-button" href="https://github.com/craabreu/openmm-cpp-forces" data-show-count="true" aria-label="Star craabreu/openmm-cpp-forces on GitHub">Star</a>
 
 
 Contents

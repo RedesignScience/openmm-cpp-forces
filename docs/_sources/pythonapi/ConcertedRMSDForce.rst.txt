@@ -1,7 +1,7 @@
 ConcertedRMSDForce
 ==================
 
-.. currentmodule:: customcppforces.customcppforces
+.. currentmodule:: openmmcppforces.openmmcppforces
 .. autoclass:: ConcertedRMSDForce
     :members:
     :inherited-members:
