@@ -41,7 +41,8 @@ jobs:
         working-directory: ./devtools/conda-recipes/anaconda
         run: |
           export PLUGIN_VERSION=${{ github.ref_name }}
-          echo "::group::Building conda package for cvpack $PLUGIN_VERSION"
+          export PLUGIN_VERSION=v0.0.0
+          echo "::group::Building conda package for version $PLUGIN_VERSION"
           outdir=$(mktemp -d)
           conda mambabuild . --no-anaconda-upload -c conda-forge --output-folder $outdir
           echo "::endgroup::"
