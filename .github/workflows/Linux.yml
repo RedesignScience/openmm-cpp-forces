@@ -71,11 +71,6 @@ jobs:
           make -j2 PythonWrapper
           pip install --no-deps -e python/
 
-      - name: "List plugins"
-        shell: bash -l {0}
-        run: |
-          python -c "import openmm as mm; print('---Loaded---', *mm.pluginLoadedLibNames, '---Failed---', *mm.Platform.getPluginLoadFailures(), sep='\n')"
-
       - name: "Run C++ test"
         shell: bash -l {0}
         run: |
