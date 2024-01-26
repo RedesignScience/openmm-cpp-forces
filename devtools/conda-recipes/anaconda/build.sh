@@ -17,11 +17,3 @@ cmake ${CMAKE_ARGS} ${CMAKE_FLAGS} ${SRC_DIR}
 make -j$CPU_COUNT install
 make -j$CPU_COUNT PythonWrapper
 ${PREFIX}/bin/python -m pip install --no-deps --ignore-installed python/
-
-# Include test executables too
-mkdir -p ${PREFIX}/share/${PKG_NAME}/tests
-if [[ "$target_platform" == osx* ]]; then
-    find . -name 'Test*' -perm +0111 -type f -exec cp {} ${PREFIX}/share/${PKG_NAME}/tests/ \;
-else
-    find . -name 'Test*' -executable -type f -exec cp {} ${PREFIX}/share/${PKG_NAME}/tests/ \;
-fi

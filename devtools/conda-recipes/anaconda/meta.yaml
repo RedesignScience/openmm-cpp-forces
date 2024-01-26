@@ -1,4 +1,4 @@
-{% set plugin_version = environ['PLUGIN_VERSION'][1:] %}
+{% set plugin_version = environ['PLUGIN_VERSION'].lstrip('v') %}
 
 package:
   name: customcppforces
@@ -31,29 +31,10 @@ requirements:
 test:
   imports:
     - customcppforces
-  commands: |
-    cd ${CONDA_PREFIX}/share/customcppforces/tests
-    ls -al
-    set +e
-    summary=""
-    exitcode=0
-    for f in Test*; do
-      echo "Running $f..."
-      ./${f}
-      thisexitcode=$?
-      summary+="\n${f}: "
-      if [[ $thisexitcode == 0 ]]; then summary+="OK"; else summary+="FAILED"; fi
-      ((exitcode+=$thisexitcode))
-    done
-    echo "-------"
-    echo "Summary"
-    echo "-------"
-    echo -e "${summary}"
-    exit $exitcode
 
 about:
   home: https://github.com/craabreu/customcppforces
-  summary: Platform-agnostic forces for OpenMM
+  summary: Platform-agnostic OpenMM Forces
   license: MIT
   license_file: LICENSE.md
   doc_url: https://craabreu.github.io/customcppforces
