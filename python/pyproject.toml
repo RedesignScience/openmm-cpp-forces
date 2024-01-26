@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "customcppforces"
-description = "Platform-agnostic forces for OpenMM"
-dynamic = ["version"]
+description = "Platform-agnostic OpenMM Forces"
+version = "@PROJECT_VERSION@"
 readme = "README.md"
 authors = [
     { name = "Charlles Abreu", email = "craabreu@gmail.com" }
