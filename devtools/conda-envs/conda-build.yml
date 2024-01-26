@@ -1,0 +1,7 @@
+name: build
+channels:
+  - conda-forge
+dependencies:
+  - anaconda-client
+  - conda-build
+  - boa
