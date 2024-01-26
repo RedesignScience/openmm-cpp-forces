@@ -6,9 +6,9 @@ To use the plugin from your Python script, you can do:
 .. code-block:: python
 
     import openmm as mm
-    import customcppforces
+    import openmmcppforces
 
-    force = customcppforces.ConcertedRMSDForce()
+    force = openmmcppforces.ConcertedRMSDForce()
 
 This is the implemented subclass of :OpenMM:`Force`:
 
@@ -20,4 +20,4 @@ This is the implemented subclass of :OpenMM:`Force`:
 
 .. testsetup::
 
-    from customcppforces import *
+    from openmmcppforces import *

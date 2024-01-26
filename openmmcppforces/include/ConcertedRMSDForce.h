@@ -2,16 +2,16 @@
 #define OPENMM_CONCERTEDRMSDFORCE_H_
 
 /* -------------------------------------------------------------------------- *
- *                          OpenMM Custom CPP Forces                          *
- *                          ========================                          *
+ *                              OpenMM CPP Forces                             *
+ *                              =================                             *
  *                                                                            *
- *  A plugin for distributing OpenMM CustomCPPForce instances                 *
+ *  A plugin for distributing platform-agnostic OpenMM Forces                 *
  *                                                                            *
  *  Copyright (c) 2024 Charlles Abreu                                         *
- *  https://github.com/craabreu/customcppforces                               *
+ *  https://github.com/craabreu/openmm-cpp-forces                               *
  * -------------------------------------------------------------------------- */
 
-#include "internal/windowsExportCustomCPPForces.h"
+#include "internal/windowsExportOpenMMCPPForces.h"
 
 #include "openmm/Force.h"
 #include "openmm/Vec3.h"
@@ -21,7 +21,7 @@
 using namespace OpenMM;
 using namespace std;
 
-namespace CustomCPPForces {
+namespace OpenMMCPPForces {
 
 /**
  * This is a force whose energy equals a special type of root mean squared deviation
@@ -108,6 +108,6 @@ private:
     vector<vector<int>> groups;
 };
 
-} // namespace CustomCPPForces
+} // namespace OpenMMCPPForces
 
 #endif /*OPENMM_CONCERTEDRMSDFORCE_H_*/

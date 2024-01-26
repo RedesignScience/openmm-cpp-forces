@@ -1,7 +1,7 @@
 {% set plugin_version = environ['PLUGIN_VERSION'].lstrip('v') %}
 
 package:
-  name: customcppforces
+  name: openmmcppforces
   version: {{ plugin_version }}
 
 source:
@@ -30,15 +30,15 @@ requirements:
 
 test:
   imports:
-    - customcppforces
+    - openmmcppforces
 
 about:
-  home: https://github.com/craabreu/customcppforces
+  home: https://github.com/craabreu/openmm-cpp-forces
   summary: Platform-agnostic OpenMM Forces
   license: MIT
   license_file: LICENSE.md
-  doc_url: https://craabreu.github.io/customcppforces
-  dev_url: https://github.com/craabreu/customcppforces
+  doc_url: https://craabreu.github.io/openmm-cpp-forces
+  dev_url: https://github.com/craabreu/openmm-cpp-forces
 
 extra:
   recipe-maintainers:

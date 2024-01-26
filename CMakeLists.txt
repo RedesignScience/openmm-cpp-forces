@@ -1,10 +1,10 @@
 #---------------------------------------------------
-# OpenMM CustomCPPForces Plugin
+# OpenMM OpenMMCPPForces Plugin
 #----------------------------------------------------
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.17)
 
-PROJECT(OpenMMCustomCPPForces VERSION 0.0.0)
+PROJECT(OpenMMCPPForces VERSION 0.0.0)
 
 IF(DEFINED ENV{CONDA_PREFIX})
     SET(OPENMM_DIR $ENV{CONDA_PREFIX} CACHE PATH "Where OpenMM is installed")
@@ -35,14 +35,14 @@ ENDIF(${CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT})
 
 # The source is organized into subdirectories, but we handle them all from
 # this CMakeLists file rather than letting CMake visit them as SUBDIRS.
-SET(PLUGIN_SOURCE_SUBDIRS customcppforces serialization)
+SET(PLUGIN_SOURCE_SUBDIRS openmmcppforces serialization)
 
 # Set the library name
-SET(PLUGIN_LIBRARY_NAME CustomCPPForces)
+SET(PLUGIN_LIBRARY_NAME OpenMMCPPForces)
 SET(SHARED_CUSTOM_CPP_FORCES_TARGET ${PLUGIN_LIBRARY_NAME})
 
 # These are all the places to search for header files which are to be part of the API.
-SET(API_INCLUDE_DIRS "customcppforces/include")
+SET(API_INCLUDE_DIRS "openmmcppforces/include")
 
 # Locate header files.
 SET(API_INCLUDE_FILES)
@@ -75,7 +75,7 @@ TARGET_LINK_LIBRARIES(${SHARED_CUSTOM_CPP_FORCES_TARGET} OpenMM)
 INSTALL_TARGETS(/lib RUNTIME_DIRECTORY /lib ${SHARED_CUSTOM_CPP_FORCES_TARGET})
 
 # install headers
-FILE(GLOB API_ONLY_INCLUDE_FILES "customcppforces/include/*.h")
+FILE(GLOB API_ONLY_INCLUDE_FILES "openmmcppforces/include/*.h")
 INSTALL (FILES ${API_ONLY_INCLUDE_FILES} DESTINATION include)
 
 # Enable testing

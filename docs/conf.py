@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import os
-import customcppforces
+import openmmcppforces
 import openmm
 
 
@@ -35,7 +35,7 @@ def create_rst_file(cls):
         ])
 
 
-create_rst_file(customcppforces.ConcertedRMSDForce)
+create_rst_file(openmmcppforces.ConcertedRMSDForce)
 
 extensions = [
     'sphinx.ext.autodoc',
@@ -58,7 +58,7 @@ if os.getenv('SPELLCHECK'):
 source_suffix = '.rst'
 master_doc = 'index'
 
-project = 'OpenMM Custom CPP Forces'
+project = 'OpenMM OpenMM CPP Forces'
 copyright = ('2024, Charlles Abreu. Project based on OpenMM')
 author = 'Charlles Abreu'
 
@@ -70,8 +70,8 @@ release = ''
 pygments_style = 'trac'
 templates_path = ['.']
 extlinks = {
-    'issue': ('https://github.com/craabreu/customcppforces/issues/%s', '#'),
-    'pr': ('https://github.com/craabreu/customcppforces/pull/%s', 'PR #'),
+    'issue': ('https://github.com/craabreu/openmm-cpp-forces/issues/%s', '#'),
+    'pr': ('https://github.com/craabreu/openmm-cpp-forces/pull/%s', 'PR #'),
 }
 
 # on_rtd is whether we are on readthedocs.org
@@ -87,7 +87,7 @@ html_theme_options = {
     'logo_name': True,
     'github_button': False,
     'github_user': 'craabreu',
-    'github_repo': 'customcppforces',
+    'github_repo': 'openmmcppforces',
 }
 html_sidebars = {
    '**': ['about.html', 'globaltoc.html', 'searchbox.html'],

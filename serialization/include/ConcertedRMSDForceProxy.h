@@ -2,22 +2,22 @@
 #define OPENMM_CONCERTEDRMSDFORCE_PROXY_H_
 
 /* -------------------------------------------------------------------------- *
- *                          OpenMM Custom CPP Forces                          *
- *                          ========================                          *
+ *                              OpenMM CPP Forces                             *
+ *                              =================                             *
  *                                                                            *
- *  A plugin for distributing OpenMM CustomCPPForce instances                 *
+ *  A plugin for distributing platform-agnostic OpenMM Forces                 *
  *                                                                            *
  *  Copyright (c) 2024 Charlles Abreu                                         *
- *  https://github.com/craabreu/customcppforces                               *
+ *  https://github.com/craabreu/openmm-cpp-forces                               *
  * -------------------------------------------------------------------------- */
 
-#include "internal/windowsExportCustomCPPForces.h"
+#include "internal/windowsExportOpenMMCPPForces.h"
 
 #include "openmm/serialization/SerializationProxy.h"
 
 using namespace OpenMM;
 
-namespace CustomCPPForces {
+namespace OpenMMCPPForces {
 
 /**
  * This is a proxy for serializing ConcertedRMSDForce objects.
@@ -30,6 +30,6 @@ public:
     void* deserialize(const SerializationNode& node) const;
 };
 
-} // namespace CustomCPPForces
+} // namespace OpenMMCPPForces
 
 #endif /*OPENMM_CONCERTEDRMSDFORCE_PROXY_H_*/
