@@ -15,8 +15,11 @@ jobs:
     strategy:
       matrix:
         include:
-            - platform: linux-64
-              os: ubuntu-latest
+          - platform: linux-64
+            os: ubuntu-latest
+
+          - platform: osx-64
+            os: macos-latest
 
     steps:
       - uses: actions/checkout@v3
@@ -44,7 +47,7 @@ jobs:
           export PLUGIN_VERSION=v0.0.0
           echo "::group::Building conda package for version $PLUGIN_VERSION"
           outdir=$(mktemp -d)
-          conda mambabuild . --no-anaconda-upload -c conda-forge --output-folder $outdir
+          conda mambabuild . --no-anaconda-upload --variants "{platform: ${{ matrix.platform }}}" --output-folder $outdir
           echo "::endgroup::"
           echo "::group::Uploading packages to mdtools conda channel"
           export ANACONDA_API_TOKEN=${{ secrets.ANACONDA_TOKEN }}
