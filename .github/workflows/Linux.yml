@@ -46,7 +46,7 @@ jobs:
         uses: mamba-org/setup-micromamba@v1
         with:
           environment-file: devtools/conda-envs/build-${{ matrix.os }}.yml
-          environment-name: test
+          environment-name: build
           create-args: >-
             python=${{ matrix.python-version }}
             gxx_linux-64=${{ matrix.gcc-version }}
