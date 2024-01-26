@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    name: Conda Build and Deployment for ${{ matrix.platform }}
+    name: Build and deploy ${{ matrix.platform }} packages
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:

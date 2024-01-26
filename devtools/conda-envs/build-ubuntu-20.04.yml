@@ -8,7 +8,7 @@ dependencies:
   - openmm @OPENMM_VERSION@
   - pip >=22.2
   - pytest
-  - python
+  - python @PYTHON_VERSION@
   - doxygen
   - swig =4.0
   - sysroot_linux-64 2.17

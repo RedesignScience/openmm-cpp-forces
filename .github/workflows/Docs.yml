@@ -11,7 +11,7 @@ on:
 jobs:
   unix:
     runs-on: ubuntu-20.04
-    name: Docs
+    name: Build and deploy to GitHub Pages
     strategy:
       fail-fast: false
       matrix:
