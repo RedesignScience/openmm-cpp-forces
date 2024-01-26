@@ -3,12 +3,12 @@ channels:
   - conda-forge
 dependencies:
   - cmake
-  - gxx_linux-64 @GCC_VERSION@
+  - gxx_linux-64
   - make
-  - openmm @OPENMM_VERSION@
+  - openmm
   - pip >=22.2
   - pytest
-  - python @PYTHON_VERSION@
+  - python
   - doxygen
   - swig =4.0
   - sysroot_linux-64 2.17

@@ -49,10 +49,8 @@ jobs:
           environment-name: test
           create-args: >-
             python=${{ matrix.python-version }}
-        env:
-          PYTHON_VERSION: ${{ matrix.python-version }}
-          GCC_VERSION: ${{ matrix.gcc-version }}
-          OPENMM_VERSION: ${{ matrix.openmm-version }}
+            gxx_linux-64=${{ matrix.gcc-version }}
+            openmm=${{ matrix.openmm-version }}
 
       - name: "List conda packages"
         shell: bash -l {0}
