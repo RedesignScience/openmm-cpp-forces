@@ -53,4 +53,4 @@ To use OpenMM-CPP-Forces in your own Python script or Jupyter notebook, simply i
 
 
 [OpenMM]:               https://openmm.org
-[ConcertedRMSDForce]:   https://craabreu.github.io/openmm-cpp-forces/api/ConcertedRMSDForce.html
+[ConcertedRMSDForce]:   https://craabreu.github.io/openmm-cpp-forces/pythonapi/ConcertedRMSDForce.html
