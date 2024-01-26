@@ -6,7 +6,6 @@ foreach(file ${SWIG_SOURCE_FILES})
     configure_file(${file} ${CMAKE_CURRENT_BINARY_DIR})
 endforeach(file ${SWIG_SOURCE_FILES})
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/__init__.py ${CMAKE_CURRENT_BINARY_DIR})
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/py.typed ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
 file(GLOB TEST_FILES ${CMAKE_CURRENT_SOURCE_DIR}/tests/*.py)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tests/)

@@ -32,9 +32,7 @@ namespaces = false
 where = ["."]
 
 [tool.setuptools.package-data]
-openmmcppforces = [
-    "py.typed"
-]
+openmmcppforces = []
 
 [tool.pytest.ini_options]
 minversion = "7.0"
