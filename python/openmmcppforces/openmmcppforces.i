@@ -1,3 +1,4 @@
+
 %module openmmcppforces
 
 %import(module="openmm") "swig/OpenMMSwigHeaders.i"
