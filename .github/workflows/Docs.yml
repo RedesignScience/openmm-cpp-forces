@@ -35,7 +35,7 @@ jobs:
       - name: "Install Micromamba"
         uses: mamba-org/setup-micromamba@v1
         with:
-          environment-file: devtools/conda-envs/build-${{ matrix.os }}.yml
+          environment-file: devtools/conda-envs/build-docs.yml
           environment-name: test
           create-args: >-
             python=${{ matrix.python-version }}
