@@ -1,7 +1,10 @@
 # Execute SWIG to generate source code for the Python module.
 
-add_custom_target(PythonWrapper DEPENDS "${MODULE_NAME}.i")
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/${MODULE_NAME}.i ${CMAKE_CURRENT_BINARY_DIR})
+file(GLOB SWIG_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.i)
+add_custom_target(PythonWrapper DEPENDS ${SWIG_SOURCE_FILES})
+foreach(file ${SWIG_SOURCE_FILES})
+    configure_file(${file} ${CMAKE_CURRENT_BINARY_DIR})
+endforeach(file ${SWIG_SOURCE_FILES})
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/__init__.py ${CMAKE_CURRENT_BINARY_DIR})
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/py.typed ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 

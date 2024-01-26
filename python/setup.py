@@ -1,6 +1,7 @@
 from setuptools import setup, Extension
 import os
 import platform
+import numpy as np
 
 openmm_dir = '@OPENMM_DIR@'
 header_dir = '@PLUGIN_HEADER_DIR@'
@@ -26,7 +27,7 @@ setup(
             name='@MODULE_NAME@._@MODULE_NAME@',
             sources=[os.path.join(module_dir, '@WRAP_FILE@')],
             libraries=['OpenMM', '@PLUGIN_LIBRARY_NAME@'],
-            include_dirs=[os.path.join(openmm_dir, 'include'), header_dir],
+            include_dirs=[os.path.join(openmm_dir, 'include'), header_dir, np.get_include()],
             library_dirs=[os.path.join(openmm_dir, 'lib'), library_dir],
             extra_compile_args=extra_compile_args,
             extra_link_args=extra_link_args,

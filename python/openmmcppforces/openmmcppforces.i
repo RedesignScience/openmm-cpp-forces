@@ -1,18 +1,4 @@
-
 %module openmmcppforces
-
-%import(module="openmm") "swig/OpenMMSwigHeaders.i"
-%include "swig/typemaps.i"
-%include <std_string.i>
-%include <std_vector.i>
-%include <std_map.i>
-
-namespace std {
-  %template(vectord) vector<double>;
-  %template(vectorstring) vector<string>;
-  %template(mapstringstring) map<string,string>;
-  %template(mapstringdouble) map<string,double>;
-};
 
 %{
 #define SWIG_PYTHON_CAST_MODE
@@ -22,7 +8,21 @@ namespace std {
 #include "OpenMMDrude.h"
 #include "openmm/RPMDIntegrator.h"
 #include "openmm/RPMDMonteCarloBarostat.h"
+#include "openmm/Force.h"
+#include "openmm/Vec3.h"
+#include <numpy/ndarrayobject.h>
+
+using namespace OpenMM;
 %}
+
+%import(module="openmm") "swig/OpenMMSwigHeaders.i"
+%include "swig/typemaps.i"
+%include "header.i"
+%include "std_vector.i"
+
+namespace std {
+  %template(vectori) vector<int>;
+};
 
 %pythoncode %{
 __version__ = "@CMAKE_PROJECT_VERSION@"
@@ -64,11 +64,11 @@ namespace OpenMMCPPForces {
  */
 class ConcertedRMSDForce : public OpenMM::Force {
 public:
-    explicit ConcertedRMSDForce(const std::vector<OpenMM::Vec3>& referencePositions);
+    explicit ConcertedRMSDForce(const std::vector<Vec3>& referencePositions);
     /**
      * Get the reference positions to compute the deviation from.
      */
-    const std::vector<OpenMM::Vec3>& getReferencePositions() const;
+    const std::vector<Vec3>& getReferencePositions() const;
     /**
      * Set the reference positions to compute the deviation from.
      *
@@ -79,7 +79,7 @@ public:
      *     vector must equal the number of particles in the system, even if not all
      *     particles are used in computing the concerted RMSD.
      */
-    void setReferencePositions(const std::vector<OpenMM::Vec3>& positions);
+    void setReferencePositions(const std::vector<Vec3>& positions);
     /**
      * Add a group of particles to be included in the concerted RMSD calculation.
      *
@@ -125,12 +125,12 @@ public:
     void setGroup(int index, const std::vector<int>& particles);
     /**
      * Update the reference positions and particle groups in a Context to match those stored
-     * in this Force object.  This method provides an efficient way to update these parameters
+     * in this OpenMM::Force object.  This method provides an efficient way to update these parameters
      * in an existing Context without needing to reinitialize it.  Simply call setReferencePositions()
      * and setGroup() to modify this object's parameters, then call updateParametersInContext()
      * to copy them over to the Context.
      */
-    void updateParametersInContext(OpenMM::Context& context);
+    void updateParametersInContext(Context& context);
     /**
      * Returns whether or not this force makes use of periodic boundary
      * conditions.
@@ -139,7 +139,7 @@ public:
      */
     bool usesPeriodicBoundaryConditions();
     /*
-     * Add methods for casting a Force to an ExtendedCustomCVForce.
+     * Add methods for casting a OpenMM::Force to an ExtendedCustomCVForce.
     */
     %extend {
         static OpenMMCPPForces::ConcertedRMSDForce& cast(OpenMM::Force& force) {
