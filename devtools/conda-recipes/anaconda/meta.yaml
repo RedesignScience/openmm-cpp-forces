@@ -1,7 +1,7 @@
 {% set plugin_version = environ['PLUGIN_VERSION'].lstrip('v') %}
 
 package:
-  name: openmmcppforces
+  name: openmm-cpp-forces
   version: {{ plugin_version }}
 
 source:
