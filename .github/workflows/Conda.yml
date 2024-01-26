@@ -1,0 +1,56 @@
+name: Conda
+
+on:
+  push:
+    tags:
+      - v*
+  pull_request:
+    branches:
+        - "main"
+
+jobs:
+  test:
+    name: Build and deploy ${{ matrix.platform }} packages
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - platform: linux-64
+            os: ubuntu-latest
+
+          - platform: osx-64
+            os: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Additional info about the build
+        shell: bash
+        run: |
+          uname -a
+          df -h
+          ulimit -a
+
+      - uses: mamba-org/provision-with-micromamba@main
+        with:
+          environment-file: devtools/conda-envs/conda-build.yml
+          environment-name: build
+          channels: conda-forge
+          extra-specs: |
+            python=3.11
+
+      - name: Conda Build and Upload
+        shell: bash -l {0}
+        working-directory: ./devtools/conda-recipes/anaconda
+        run: |
+          export PLUGIN_VERSION=${{ github.ref_name }}
+          export PLUGIN_VERSION=v0.0.0
+          echo "::group::Building conda package for version $PLUGIN_VERSION"
+          outdir=$(mktemp -d)
+          conda mambabuild . --no-anaconda-upload --variants "{platform: ${{ matrix.platform }}}" --output-folder $outdir
+          echo "::endgroup::"
+          echo "::group::Uploading packages to mdtools conda channel"
+          export ANACONDA_API_TOKEN=${{ secrets.ANACONDA_TOKEN }}
+          PACKAGES=$(find $outdir -name openmm-cpp-forces-*.tar.bz2)
+          anaconda upload --user mdtools --force --label main $PACKAGES
+          echo "::endgroup::"

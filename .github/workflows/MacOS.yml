@@ -11,46 +11,47 @@ on:
     # Weely tests run on Sundays at 4 AM UTC (12 AM EST):
     - cron: "0 4 * * 0"
 
-
 jobs:
   unix:
     runs-on: ${{ matrix.os }}
-    name: ${{ matrix.name }}
+    name: Python ${{ matrix.python-version }}, OpenMM ${{ matrix.openmm-version }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - name: MacOS (Python 3.9)
-            os: macos-11
-            gcc-version: ""
+          # Oldest supported versions
+          - os: macos-11
             python-version: "3.9"
+            openmm-version: "8.1"
+
+          # Latest supported versions
+          - os: macos-11
+            python-version: "3.11"
+            openmm-version: "8.1"
 
     steps:
       - name: "Check out"
         uses: actions/checkout@v3
 
-      - name: "Install SDK on MacOS"
-        run: source devtools/scripts/install_macos_sdk.sh
+      - name: "Additional info about the build"
+        shell: bash
+        run: |
+          uname -a
+          df -h
+          ulimit -a
 
-      - name: "Update the conda enviroment file"
-        uses: cschleiden/replace-tokens@v1
+      - name: "Install Micromamba"
+        uses: mamba-org/setup-micromamba@v1
         with:
-          tokenPrefix: '@'
-          tokenSuffix: '@'
-          files: devtools/conda-envs/build-${{ matrix.os }}.yml
-        env:
-          GCC_VERSION: ${{ matrix.gcc-version }}
-
-      - uses: conda-incubator/setup-miniconda@v2
-        name: "Install dependencies with conda"
-        with:
-          activate-environment: build
           environment-file: devtools/conda-envs/build-${{ matrix.os }}.yml
-          python-version: ${{ matrix.python-version }}
+          environment-name: build
+          create-args: >-
+            python=${{ matrix.python-version }}
+            openmm=${{ matrix.openmm-version }}
 
       - name: "List conda packages"
         shell: bash -l {0}
-        run: conda list
+        run: micromamba list
 
       - name: "Configure"
         shell: bash -l {0}
@@ -66,11 +67,6 @@ jobs:
           make -j2 install
           make -j2 PythonWrapper
           pip install --no-deps -e python/
-
-      - name: "List plugins"
-        shell: bash -l {0}
-        run: |
-          python -c "import openmm as mm; print('---Loaded---', *mm.pluginLoadedLibNames, '---Failed---', *mm.Platform.getPluginLoadFailures(), sep='\n')"
 
       - name: "Run C++ test"
         shell: bash -l {0}

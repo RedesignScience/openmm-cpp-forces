@@ -1,15 +1,17 @@
-name: build
+name: docs
 channels:
   - conda-forge
 dependencies:
   - cmake
-  - compilers
+  - gxx_linux-64
   - make
-  - openmm >=7.7
+  - openmm
   - pip >=22.2
   - pytest
   - python
+  - doxygen
   - swig =4.0
+  - sysroot_linux-64 2.17
   - numpy
 
   # Docs depends

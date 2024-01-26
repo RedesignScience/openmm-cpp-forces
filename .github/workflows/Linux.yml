@@ -13,46 +13,48 @@ on:
 
 jobs:
   unix:
-    runs-on: ubuntu-20.04
-    name: Linux (Python ${{ matrix.python-version }}, OpenMM ${{ matrix.openmm-version }}, GCC ${{ matrix.gcc-version }})
+    runs-on: ${{ matrix.os }}
+    name: Python ${{ matrix.python-version }}, OpenMM ${{ matrix.openmm-version }}, GCC ${{ matrix.gcc-version }}
     strategy:
       fail-fast: false
       matrix:
         include:
           # Oldest supported versions
-          - python-version: "3.9"
+          - os: ubuntu-20.04
+            python-version: "3.9"
             openmm-version: "8.1"
-            gcc-version: "9.4"
+            gcc-version: "9"
 
           # Latest supported versions
-          - python-version: "3.11"
+          - os: ubuntu-20.04
+            python-version: "3.11"
             openmm-version: "8.1"
-            gcc-version: "13.2"
+            gcc-version: "13"
 
     steps:
       - name: "Check out"
         uses: actions/checkout@v3
 
-      - name: "Update the conda enviroment file"
-        uses: cschleiden/replace-tokens@v1
-        with:
-          tokenPrefix: '@'
-          tokenSuffix: '@'
-          files: devtools/conda-envs/build-ubuntu-20.04.yml
-        env:
-          GCC_VERSION: ${{ matrix.gcc-version }}
-          OPENMM_VERSION: ${{ matrix.openmm-version }}
+      - name: "Additional info about the build"
+        shell: bash
+        run: |
+          uname -a
+          df -h
+          ulimit -a
 
-      - uses: conda-incubator/setup-miniconda@v2
-        name: "Install dependencies with conda"
+      - name: "Install Micromamba"
+        uses: mamba-org/setup-micromamba@v1
         with:
-          activate-environment: build
-          environment-file: devtools/conda-envs/build-ubuntu-20.04.yml
-          python-version: ${{ matrix.python-version }}
+          environment-file: devtools/conda-envs/build-${{ matrix.os }}.yml
+          environment-name: build
+          create-args: >-
+            python=${{ matrix.python-version }}
+            gxx_linux-64=${{ matrix.gcc-version }}
+            openmm=${{ matrix.openmm-version }}
 
       - name: "List conda packages"
         shell: bash -l {0}
-        run: conda list
+        run: micromamba list
 
       - name: "Configure"
         shell: bash -l {0}
@@ -68,11 +70,6 @@ jobs:
           make -j2 install
           make -j2 PythonWrapper
           pip install --no-deps -e python/
-
-      - name: "List plugins"
-        shell: bash -l {0}
-        run: |
-          python -c "import openmm as mm; print('---Loaded---', *mm.pluginLoadedLibNames, '---Failed---', *mm.Platform.getPluginLoadFailures(), sep='\n')"
 
       - name: "Run C++ test"
         shell: bash -l {0}
