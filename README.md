@@ -1,9 +1,9 @@
-OpenMMCPPForces Plugin
+OpenMM-CPP-Forces Plugin
 ========================
 
 [![Linux](https://github.com/craabreu/openmm-cpp-forces/actions/workflows/Linux.yml/badge.svg)](https://github.com/craabreu/openmm-cpp-forces/actions/workflows/Linux.yml)
 [![MacOS](https://github.com/craabreu/openmm-cpp-forces/actions/workflows/MacOS.yml/badge.svg)](https://github.com/craabreu/openmm-cpp-forces/actions/workflows/MacOS.yml)
-[![Doc](https://github.com/craabreu/openmm-cpp-forces/actions/workflows/Doc.yml/badge.svg)](https://github.com/craabreu/openmm-cpp-forces/actions/workflows/Doc.yml)
+[![Docs](https://github.com/craabreu/openmm-cpp-forces/actions/workflows/Docs.yml/badge.svg)](https://github.com/craabreu/openmm-cpp-forces/actions/workflows/Docs.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 This [OpenMM] plugin is a laboratory for low-level code implementation.
