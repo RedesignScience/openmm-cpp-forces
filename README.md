@@ -45,10 +45,9 @@ This [OpenMM] plugin provides Platform-agnostic Force classes.
 
 The Force classes implemented in OpenMM-CPP-Forces are listed in the table below.
 
-| Force                   | Description                                                      |
-|-------------------------|------------------------------------------------------------------|
-| [ConcertedRMSDForce]    | RMSD of multiple structures constrained to rotate in tandem      |
-
+| Force / CV             | Description                                                             |
+|------------------------|-------------------------------------------------------------------------|
+| [CompositeRMSDForce]   | Deviation of multiple corotating bodies from their reference structures |
 
 ### Documentation
 
@@ -75,8 +74,8 @@ To use OpenMM-CPP-Forces in your own Python script or Jupyter notebook, simply i
     import openmmcppforces
 ```
 
-[ConcertedRMSDForce]:
-    https://craabreu.github.io/openmm-cpp-forces/pythonapi/ConcertedRMSDForce.html
+[CompositeRMSDForce]:
+    https://craabreu.github.io/openmm-cpp-forces/pythonapi/CompositeRMSDForce.html
 [Github Pages]:
     https://craabreu.github.io/openmm-cpp-forces
 [mdtools]:

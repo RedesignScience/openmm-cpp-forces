@@ -8,14 +8,14 @@ To use the plugin from your Python script, you can do:
     import openmm as mm
     import openmmcppforces
 
-    force = openmmcppforces.ConcertedRMSDForce()
+    force = openmmcppforces.CompositeRMSDForce()
 
 This is the implemented subclass of :OpenMM:`Force`:
 
 .. toctree::
     :titlesonly:
 
-    ConcertedRMSDForce
+    CompositeRMSDForce
 
 
 .. testsetup::

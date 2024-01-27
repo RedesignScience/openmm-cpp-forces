@@ -8,7 +8,7 @@
  *  https://github.com/craabreu/openmm-cpp-forces                               *
  * -------------------------------------------------------------------------- */
 
-#include "ConcertedRMSDForce.h"
+#include "CompositeRMSDForce.h"
 
 #include "openmm/internal/AssertionUtilities.h"
 #include "openmm/serialization/XmlSerializer.h"
@@ -28,7 +28,7 @@ void testSerialization() {
     vector<int> particles;
     for (int i = 0; i < 5; i++)
         particles.push_back(i*i);
-    ConcertedRMSDForce force(refPos);
+    CompositeRMSDForce force(refPos);
     force.addGroup(particles);
     force.setForceGroup(3);
     force.setName("custom name");
@@ -36,12 +36,12 @@ void testSerialization() {
     // Serialize and then deserialize it.
 
     stringstream buffer;
-    XmlSerializer::serialize<ConcertedRMSDForce>(&force, "Force", buffer);
-    ConcertedRMSDForce* copy = XmlSerializer::deserialize<ConcertedRMSDForce>(buffer);
+    XmlSerializer::serialize<CompositeRMSDForce>(&force, "Force", buffer);
+    CompositeRMSDForce* copy = XmlSerializer::deserialize<CompositeRMSDForce>(buffer);
 
     // Compare the two forces to see if they are identical.
 
-    ConcertedRMSDForce& force2 = *copy;
+    CompositeRMSDForce& force2 = *copy;
     ASSERT_EQUAL(force.getForceGroup(), force2.getForceGroup());
     ASSERT_EQUAL(force.getName(), force2.getName());
     ASSERT_EQUAL(force.getReferencePositions().size(), force2.getReferencePositions().size());

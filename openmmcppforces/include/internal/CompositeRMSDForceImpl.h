@@ -1,5 +1,5 @@
-#ifndef OPENMM_CONCERTEDRMSDFORCEIMPL_H_
-#define OPENMM_CONCERTEDRMSDFORCEIMPL_H_
+#ifndef OPENMM_COMPOSITERMSDFORCEIMPL_H_
+#define OPENMM_COMPOSITERMSDFORCEIMPL_H_
 
 /* -------------------------------------------------------------------------- *
  *                              OpenMM CPP Forces                             *
@@ -11,7 +11,7 @@
  *  https://github.com/craabreu/openmm-cpp-forces                               *
  * -------------------------------------------------------------------------- */
 
-#include "ConcertedRMSDForce.h"
+#include "CompositeRMSDForce.h"
 
 #include "openmm/internal/CustomCPPForceImpl.h"
 #include "openmm/internal/ContextImpl.h"
@@ -23,25 +23,25 @@ using namespace std;
 namespace OpenMMCPPForces {
 
 /**
- * This is the internal implementation of ConcertedRMSDForce.
+ * This is the internal implementation of CompositeRMSDForce.
  */
 
-class ConcertedRMSDForceImpl : public CustomCPPForceImpl {
+class CompositeRMSDForceImpl : public CustomCPPForceImpl {
 public:
-    ConcertedRMSDForceImpl(const ConcertedRMSDForce& owner) : CustomCPPForceImpl(owner), owner(owner) {}
+    CompositeRMSDForceImpl(const CompositeRMSDForce& owner) : CustomCPPForceImpl(owner), owner(owner) {}
     void initialize(ContextImpl& context);
     double computeForce(ContextImpl& context, const vector<Vec3>& positions, vector<Vec3>& forces);
-    const ConcertedRMSDForce& getOwner() const {
+    const CompositeRMSDForce& getOwner() const {
         return owner;
     }
     void updateParametersInContext(ContextImpl& context);
 private:
     void updateParameters(int systemSize);
-    const ConcertedRMSDForce& owner;
+    const CompositeRMSDForce& owner;
     vector<vector<int>> groups;
     vector<Vec3> referencePos;
 };
 
 } // namespace OpenMMCPPForces
 
-#endif /*OPENMM_CONCERTEDRMSDFORCEIMPL_H_*/
+#endif /*OPENMM_COMPOSITERMSDFORCEIMPL_H_*/

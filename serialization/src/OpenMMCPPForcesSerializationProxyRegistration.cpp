@@ -17,8 +17,8 @@
 #include <cstdlib>
 #endif
 
-#include "ConcertedRMSDForce.h"
-#include "ConcertedRMSDForceProxy.h"
+#include "CompositeRMSDForce.h"
+#include "CompositeRMSDForceProxy.h"
 #include "openmm/serialization/SerializationProxy.h"
 
 #if defined(WIN32)
@@ -37,5 +37,5 @@ using namespace OpenMMCPPForces;
 using namespace OpenMM;
 
 extern "C" CUSTOM_CPP_FORCES_EXPORT void registerOpenMMCPPForcesSerializationProxies() {
-    SerializationProxy::registerProxy(typeid(ConcertedRMSDForce), new ConcertedRMSDForceProxy());
+    SerializationProxy::registerProxy(typeid(CompositeRMSDForce), new CompositeRMSDForceProxy());
 }

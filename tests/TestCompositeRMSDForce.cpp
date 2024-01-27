@@ -8,7 +8,7 @@
  *  https://github.com/craabreu/openmm-cpp-forces                               *
  * -------------------------------------------------------------------------- */
 
-#include "ConcertedRMSDForce.h"
+#include "CompositeRMSDForce.h"
 
 #include "openmm/internal/AssertionUtilities.h"
 #include "openmm/reference/ReferencePlatform.h"
@@ -66,7 +66,7 @@ void testRMSD() {
         if (i%5 != 0)
             particles.push_back(i);
     }
-    ConcertedRMSDForce* force = new ConcertedRMSDForce(referencePos);
+    CompositeRMSDForce* force = new CompositeRMSDForce(referencePos);
     force->addGroup(particles);
     system.addForce(force);
     VerletIntegrator integrator(0.001);

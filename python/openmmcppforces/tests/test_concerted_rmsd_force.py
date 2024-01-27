@@ -74,7 +74,7 @@ def test_single_group_rmsd():
         positions.append(refpos + 0.2 * random_vec3())
         if i % 5:
             particles.append(i)
-    force = mmcpp.ConcertedRMSDForce(referencePos)
+    force = mmcpp.CompositeRMSDForce(referencePos)
 
     force.addGroup(particles)
     system.addForce(force)

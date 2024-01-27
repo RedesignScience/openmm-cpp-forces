@@ -8,8 +8,8 @@
  * https://github.com/craabreu/openmm-lab                                     *
  * -------------------------------------------------------------------------- */
 
-#include "ConcertedRMSDForceProxy.h"
-#include "ConcertedRMSDForce.h"
+#include "CompositeRMSDForceProxy.h"
+#include "CompositeRMSDForce.h"
 
 #include "openmm/serialization/SerializationNode.h"
 #include "openmm/Force.h"
@@ -19,12 +19,12 @@ using namespace OpenMMCPPForces;
 using namespace OpenMM;
 using namespace std;
 
-ConcertedRMSDForceProxy::ConcertedRMSDForceProxy() : SerializationProxy("ConcertedRMSDForce") {
+CompositeRMSDForceProxy::CompositeRMSDForceProxy() : SerializationProxy("CompositeRMSDForce") {
 }
 
-void ConcertedRMSDForceProxy::serialize(const void* object, SerializationNode& node) const {
+void CompositeRMSDForceProxy::serialize(const void* object, SerializationNode& node) const {
     node.setIntProperty("version", 0);
-    const ConcertedRMSDForce& force = *reinterpret_cast<const ConcertedRMSDForce*>(object);
+    const CompositeRMSDForce& force = *reinterpret_cast<const CompositeRMSDForce*>(object);
     node.setIntProperty("forceGroup", force.getForceGroup());
     node.setStringProperty("name", force.getName());
     SerializationNode& positionsNode = node.createChildNode("ReferencePositions");
@@ -39,11 +39,11 @@ void ConcertedRMSDForceProxy::serialize(const void* object, SerializationNode& n
     }
 }
 
-void* ConcertedRMSDForceProxy::deserialize(const SerializationNode& node) const {
+void* CompositeRMSDForceProxy::deserialize(const SerializationNode& node) const {
     int version = node.getIntProperty("version");
     if (version != 0)
         throw OpenMMException("Unsupported version number");
-    ConcertedRMSDForce* force = NULL;
+    CompositeRMSDForce* force = NULL;
     try {
         vector<Vec3> positions;
         for (auto& pos : node.getChildNode("ReferencePositions").getChildren())
@@ -55,7 +55,7 @@ void* ConcertedRMSDForceProxy::deserialize(const SerializationNode& node) const 
                 particles.push_back(particle.getIntProperty("index"));
             groups.push_back(particles);
         }
-        force = new ConcertedRMSDForce(positions);
+        force = new CompositeRMSDForce(positions);
         for (auto& particles : groups)
             force->addGroup(particles);
         force->setForceGroup(node.getIntProperty("forceGroup", 0));

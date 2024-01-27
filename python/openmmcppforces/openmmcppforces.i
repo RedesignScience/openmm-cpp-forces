@@ -2,7 +2,7 @@
 
 %{
 #define SWIG_PYTHON_CAST_MODE
-#include "ConcertedRMSDForce.h"
+#include "CompositeRMSDForce.h"
 #include "OpenMM.h"
 #include "OpenMMAmoeba.h"
 #include "OpenMMDrude.h"
@@ -34,7 +34,7 @@ import simtk.unit as unit
  * Add units to function outputs.
 */
 
-%pythonappend OpenMMCPPForces::ConcertedRMSDForce::getReferencePositions() const %{
+%pythonappend OpenMMCPPForces::CompositeRMSDForce::getReferencePositions() const %{
     val *= unit.nanometers
 %}
 
@@ -72,9 +72,9 @@ namespace OpenMMCPPForces {
  *     must equal the number of particles in the system, even if not all particles are
  *     used in computing the Concerted RMSD.
  */
-class ConcertedRMSDForce : public OpenMM::Force {
+class CompositeRMSDForce : public OpenMM::Force {
 public:
-    explicit ConcertedRMSDForce(const std::vector<Vec3>& referencePositions);
+    explicit CompositeRMSDForce(const std::vector<Vec3>& referencePositions);
     /**
      * Get the reference positions to compute the deviation from.
      */
@@ -152,12 +152,12 @@ public:
      * Add methods for casting a OpenMM::Force to an ExtendedCustomCVForce.
     */
     %extend {
-        static OpenMMCPPForces::ConcertedRMSDForce& cast(OpenMM::Force& force) {
-            return dynamic_cast<OpenMMCPPForces::ConcertedRMSDForce&>(force);
+        static OpenMMCPPForces::CompositeRMSDForce& cast(OpenMM::Force& force) {
+            return dynamic_cast<OpenMMCPPForces::CompositeRMSDForce&>(force);
         }
 
         static bool isinstance(OpenMM::Force& force) {
-            return (dynamic_cast<OpenMMCPPForces::ConcertedRMSDForce*>(&force) != NULL);
+            return (dynamic_cast<OpenMMCPPForces::CompositeRMSDForce*>(&force) != NULL);
         }
     }
 };
