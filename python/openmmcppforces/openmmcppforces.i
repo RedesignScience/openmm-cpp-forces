@@ -10,6 +10,7 @@
 #include "openmm/RPMDMonteCarloBarostat.h"
 #include "openmm/Force.h"
 #include "openmm/Vec3.h"
+#include "openmm/Context.h"
 #include <numpy/ndarrayobject.h>
 
 using namespace OpenMM;
@@ -25,7 +26,16 @@ namespace std {
 };
 
 %pythoncode %{
-__version__ = "@CMAKE_PROJECT_VERSION@"
+import simtk.openmm as mm
+import simtk.unit as unit
+%}
+
+/*
+ * Add units to function outputs.
+*/
+
+%pythonappend OpenMMCPPForces::ConcertedRMSDForce::getReferencePositions() const %{
+    val *= unit.nanometers
 %}
 
 /*
@@ -130,7 +140,7 @@ public:
      * and setGroup() to modify this object's parameters, then call updateParametersInContext()
      * to copy them over to the Context.
      */
-    void updateParametersInContext(Context& context);
+    void updateParametersInContext(OpenMM::Context& context);
     /**
      * Returns whether or not this force makes use of periodic boundary
      * conditions.

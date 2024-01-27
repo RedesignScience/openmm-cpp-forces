@@ -21,6 +21,7 @@ requirements:
     - make
     - setuptools
     - pip
+    - numpy >=1.19
   host:
     - python
     - openmm >=8.1
