@@ -54,16 +54,43 @@ import simtk.unit as unit
 namespace OpenMMCPPForces {
 
 /**
- * This is a force whose energy equals a special type of root mean squared deviation
- * (RMSD) between the current coordinates and a reference structure.  It is intended for
- * use with CustomCVForce.  You will not normally want a force that exactly equals
- * the RMSD, but there are many situations where it is useful to have a restraining
- * or biasing force that depends on the RMSD in some way.
+ * This is a force whose energy equals the root mean squared deviation (RMSD) between
+ * the current coordinates of multiple particle groups and reference structures defined
+ * for each group. The composite RMSD is computed after aligning every particle group to
+ * its reference structure while keeping the relative orientations of all groups fixed.
+ * Therefore, this is not a mere composition of independent RMSD calculations done in
+ * the usual way.
  *
- * The force is computed by first aligning the particle positions to the reference
- * structure, then computing the RMSD between the aligned positions and the reference.
- * The computation can optionally be done based on only a subset of the particles
- * in the system.
+ * Consider `m` particle groups, with each group :math:`{\\bf g}_j` containing
+ * :math:`n_j` particles. The centroid of each group is defined as
+ *
+ * .. math::
+ *
+ *    {\\bf c}_j = \\frac{1}{n_j} \\sum_{k \\in {\\bf g}_j} {\\bf r}_k
+ *
+ * where :math:`{\\bf r}_k` is the position of particle :math:`k` and the sum is over
+ * all particles in the group. Analogously, :math:`{\\bf c}_j^{\\rm ref}` is the
+ * centroid of the reference structure for group :math:`j`, whose each particle
+ * :math:`k` is located at :math:`{\\bf r}_k^{\\rm ref}`.
+
+ * The composite RMSD is then defined as
+ *
+ * .. math::
+ *
+ *     d_{\\rm crms}({\\bf r}) = \\sqrt{
+ *         \\frac{1}{n} \\min_{
+ *             \\bf q \\in \\mathbb{R}^4 \\atop \\|{\\bf q}\\| = 1
+ *         } \\sum_{j=1}^m \\sum_{k \\in {\\bf g}_j} \\left\\|
+ *             {\\bf A}({\\bf q})\\left({\\bf r}_k - {\\bf c}_j\\right) -
+ *                 {\\bf r}_k^{\\rm ref} + {\\bf c}_j^{\\rm ref}
+ *         \\right\\|^2
+ *     }
+ *
+ * where :math:`n = \\sum_{j=1}^m n_j` is the total number of particles in all groups,
+ * :math:`{\\bf A}(\\bf q)` is the rotation matrix corresponding to a unit quaternion
+ * :math:`{\\bf q}`.
+ *
+ * This force is intended for use with :OpenMM:`CustomCVForce`.
  *
  * Parameters
  * ----------
