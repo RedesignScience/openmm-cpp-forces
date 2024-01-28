@@ -8,7 +8,7 @@
  *  https://github.com/craabreu/openmm-cpp-forces                               *
  * -------------------------------------------------------------------------- */
 
-#include "internal/ConcertedRMSDForceImpl.h"
+#include "internal/CompositeRMSDForceImpl.h"
 
 #include "openmm/internal/CustomCPPForceImpl.h"
 #include "openmm/internal/ContextImpl.h"
@@ -22,16 +22,16 @@ using namespace OpenMM;
 using namespace std;
 
 
-void ConcertedRMSDForceImpl::updateParameters(int systemSize) {
+void CompositeRMSDForceImpl::updateParameters(int systemSize) {
     // Check for errors in the specification of particles.
     if (owner.getReferencePositions().size() != systemSize)
         throw OpenMMException(
-            "ConcertedRMSDForce: Number of reference positions does not equal number of particles in the System"
+            "CompositeRMSDForce: Number of reference positions does not equal number of particles in the System"
         );
 
     int numGroups = owner.getNumGroups();
     if (numGroups == 0)
-        throw OpenMMException("ConcertedRMSDForce: No particle groups have been specified");
+        throw OpenMMException("CompositeRMSDForce: No particle groups have been specified");
 
     groups.resize(numGroups);
     for (int i = 0; i < numGroups; i++) {
@@ -48,12 +48,12 @@ void ConcertedRMSDForceImpl::updateParameters(int systemSize) {
         for (int i : groups[k]) {
             if (i < 0 || i >= systemSize) {
                 stringstream msg;
-                msg << "ConcertedRMSDForce: Illegal particle index " << i << " in group " << k;
+                msg << "CompositeRMSDForce: Illegal particle index " << i << " in group " << k;
                 throw OpenMMException(msg.str());
             }
             if (distinctParticles.find(i) != distinctParticles.end()) {
                 stringstream msg;
-                msg << "ConcertedRMSDForce: Duplicated particle index " << i << " in group " << k;
+                msg << "CompositeRMSDForce: Duplicated particle index " << i << " in group " << k;
                 throw OpenMMException(msg.str());
             }
             distinctParticles.insert(i);
@@ -71,12 +71,12 @@ void ConcertedRMSDForceImpl::updateParameters(int systemSize) {
     }
 }
 
-void ConcertedRMSDForceImpl::initialize(ContextImpl& context) {
+void CompositeRMSDForceImpl::initialize(ContextImpl& context) {
     CustomCPPForceImpl::initialize(context);
     updateParameters(context.getSystem().getNumParticles());
 }
 
-double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<Vec3>& positions, vector<Vec3>& forces) {
+double CompositeRMSDForceImpl::computeForce(ContextImpl& context, const vector<Vec3>& positions, vector<Vec3>& forces) {
     // Compute the RMSD and its gradient using the algorithm described in Coutsias et al,
     // "Using quaternions to calculate RMSD" (doi: 10.1002/jcc.20110).  First subtract
     // the centroid from the atom positions.  The reference positions have already been centered.
@@ -173,7 +173,7 @@ double ConcertedRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
     return rmsd;
 }
 
-void ConcertedRMSDForceImpl::updateParametersInContext(ContextImpl& context) {
+void CompositeRMSDForceImpl::updateParametersInContext(ContextImpl& context) {
     updateParameters(context.getSystem().getNumParticles());
     context.systemChanged();
 }

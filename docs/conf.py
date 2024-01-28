@@ -35,7 +35,7 @@ def create_rst_file(cls):
         ])
 
 
-create_rst_file(openmmcppforces.ConcertedRMSDForce)
+create_rst_file(openmmcppforces.CompositeRMSDForce)
 
 extensions = [
     'sphinx.ext.autodoc',

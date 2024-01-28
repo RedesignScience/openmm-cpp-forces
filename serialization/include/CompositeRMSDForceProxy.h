@@ -1,5 +1,5 @@
-#ifndef OPENMM_CONCERTEDRMSDFORCE_PROXY_H_
-#define OPENMM_CONCERTEDRMSDFORCE_PROXY_H_
+#ifndef OPENMM_COMPOSITERMSDFORCE_PROXY_H_
+#define OPENMM_COMPOSITERMSDFORCE_PROXY_H_
 
 /* -------------------------------------------------------------------------- *
  *                              OpenMM CPP Forces                             *
@@ -20,16 +20,16 @@ using namespace OpenMM;
 namespace OpenMMCPPForces {
 
 /**
- * This is a proxy for serializing ConcertedRMSDForce objects.
+ * This is a proxy for serializing CompositeRMSDForce objects.
  */
 
-class CUSTOM_CPP_FORCES_EXPORT ConcertedRMSDForceProxy : public SerializationProxy {
+class CUSTOM_CPP_FORCES_EXPORT CompositeRMSDForceProxy : public SerializationProxy {
 public:
-    ConcertedRMSDForceProxy();
+    CompositeRMSDForceProxy();
     void serialize(const void* object, SerializationNode& node) const;
     void* deserialize(const SerializationNode& node) const;
 };
 
 } // namespace OpenMMCPPForces
 
-#endif /*OPENMM_CONCERTEDRMSDFORCE_PROXY_H_*/
+#endif /*OPENMM_COMPOSITERMSDFORCE_PROXY_H_*/

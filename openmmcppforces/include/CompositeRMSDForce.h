@@ -1,5 +1,5 @@
-#ifndef OPENMM_CONCERTEDRMSDFORCE_H_
-#define OPENMM_CONCERTEDRMSDFORCE_H_
+#ifndef OPENMM_COMPOSITERMSDFORCE_H_
+#define OPENMM_COMPOSITERMSDFORCE_H_
 
 /* -------------------------------------------------------------------------- *
  *                              OpenMM CPP Forces                             *
@@ -36,17 +36,17 @@ namespace OpenMMCPPForces {
  * in the system.
  */
 
-class CUSTOM_CPP_FORCES_EXPORT ConcertedRMSDForce : public Force {
+class CUSTOM_CPP_FORCES_EXPORT CompositeRMSDForce : public Force {
 public:
     /**
-     * Create an ConcertedRMSDForce.
+     * Create an CompositeRMSDForce.
      *
      * @param referencePositions  the reference positions to compute the deviation from.
      *                            The length of this vector must equal the number of
      *                            particles in the system, even if not all particles are
      *                            used in computing the Concerted RMSD.
      */
-    explicit ConcertedRMSDForce(const vector<Vec3>& referencePositions);
+    explicit CompositeRMSDForce(const vector<Vec3>& referencePositions);
     /**
      * Get the reference positions to compute the deviation from.
      */
@@ -110,4 +110,4 @@ private:
 
 } // namespace OpenMMCPPForces
 
-#endif /*OPENMM_CONCERTEDRMSDFORCE_H_*/
+#endif /*OPENMM_COMPOSITERMSDFORCE_H_*/
