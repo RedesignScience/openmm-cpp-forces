@@ -20,13 +20,13 @@ jobs:
       matrix:
         include:
           # Oldest supported versions
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             python-version: "3.9"
             openmm-version: "8.1"
             gcc-version: "9"
 
           # Latest supported versions
-          - os: ubuntu-20.04
+          - os: ubuntu-latest
             python-version: "3.11"
             openmm-version: "8.1"
             gcc-version: "13"

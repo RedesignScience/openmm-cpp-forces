@@ -19,12 +19,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: macos-11
+          - os: macos-latest
             python-version: "3.9"
-            openmm-version: "8.1"
-
-          - os: macos-13-xlarge
-            python-version: "3.11"
             openmm-version: "8.1"
 
     steps:
