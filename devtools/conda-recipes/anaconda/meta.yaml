@@ -33,13 +33,13 @@ test:
     - openmmcppforces
 
 about:
-  home: https://github.com/craabreu/openmm-cpp-forces
+  home: https://github.com/RedesignScience/openmm-cpp-forces
   summary: Platform-agnostic OpenMM Forces
   license: MIT
   license_file: LICENSE.md
-  doc_url: https://craabreu.github.io/openmm-cpp-forces
-  dev_url: https://github.com/craabreu/openmm-cpp-forces
+  doc_url: https://RedesignScience.github.io/openmm-cpp-forces
+  dev_url: https://github.com/RedesignScience/openmm-cpp-forces
 
 extra:
   recipe-maintainers:
-    - craabreu
+    - RedesignScience
