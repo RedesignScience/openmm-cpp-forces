@@ -19,14 +19,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # Oldest supported versions
-          - os: macos-11
+          - os: macos-latest
             python-version: "3.9"
-            openmm-version: "8.1"
-
-          # Latest supported versions
-          - os: macos-11
-            python-version: "3.11"
             openmm-version: "8.1"
 
     steps:

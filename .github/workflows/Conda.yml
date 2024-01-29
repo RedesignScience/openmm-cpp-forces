@@ -15,11 +15,14 @@ jobs:
     strategy:
       matrix:
         include:
-          - platform: linux-64
-            os: ubuntu-latest
+          - os: ubuntu-latest
+            platform: linux-64
 
-          - platform: osx-64
-            os: macos-latest
+          - os: macos-latest
+            platform: osx-64
+
+          - os: macos-latest
+            platform: osx-arm64
 
     steps:
       - uses: actions/checkout@v3
@@ -50,7 +53,11 @@ jobs:
           conda mambabuild . --no-anaconda-upload --variants "{platform: ${{ matrix.platform }}}" --output-folder $outdir
           echo "::endgroup::"
           echo "::group::Uploading packages to mdtools conda channel"
-          export ANACONDA_API_TOKEN=${{ secrets.ANACONDA_TOKEN }}
-          PACKAGES=$(find $outdir -name openmm-cpp-forces-*.tar.bz2)
-          anaconda upload --user mdtools --force --label main $PACKAGES
+          if [ "$GITHUB_EVENT_NAME" == "pull_request" ]; then
+              echo "Deployment is deactivated in pull requests"
+          else
+              export ANACONDA_API_TOKEN=${{ secrets.ANACONDA_TOKEN }}
+              PACKAGES=$(find $outdir -name openmm-cpp-forces-*.tar.bz2)
+              anaconda upload --user mdtools --force --label main $PACKAGES
+          fi
           echo "::endgroup::"
