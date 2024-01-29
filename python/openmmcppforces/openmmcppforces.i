@@ -150,12 +150,12 @@ public:
     void setReferencePositions(const std::vector<Vec3>& positions);
 
     %feature("docstring") %{
-    Add a group of particles to be included in the composite RMSD calculation.
+    Add a group of particles to make part of the composite RMSD calculation.
 
     Parameters
     ----------
     particles
-        the indices of the particles to include
+        the indices of the particles to add
 
     Returns
     -------
@@ -197,11 +197,12 @@ public:
     void setGroup(int index, const std::vector<int>& particles);
 
     %feature("docstring") %{
-    Update the reference positions and particle groups in a Context to match those stored
-    in this OpenMM::Force object.  This method provides an efficient way to update these parameters
-    in an existing Context without needing to reinitialize it.  Simply call setReferencePositions()
-    and setGroup() to modify this object's parameters, then call updateParametersInContext()
-    to copy them over to the Context.
+    Update the reference positions and particle groups in a Context to match those
+    stored in this OpenMM::`Force` object. This method provides an efficient way to
+    update these parameters in an existing :OpenMM:`Context` without needing to
+    reinitialize it. Simply call :func:`setReferencePositions` and :func:`setGroup` to
+    modify this object's parameters, then call :func:`updateParametersInContext` to
+    copy them over to the :OpenMM:`Context`.
     %}
     void updateParametersInContext(OpenMM::Context& context);
 

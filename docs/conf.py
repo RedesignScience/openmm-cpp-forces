@@ -58,7 +58,7 @@ if os.getenv('SPELLCHECK'):
 source_suffix = '.rst'
 master_doc = 'index'
 
-project = 'OpenMM OpenMM CPP Forces'
+project = 'OpenMM CPP Forces'
 copyright = ('2024, Charlles Abreu. Project based on OpenMM')
 author = 'Charlles Abreu'
 
@@ -83,8 +83,6 @@ pygments_style = 'sphinx'
 html_theme = 'alabaster'
 html_static_path = ['_static']
 html_theme_options = {
-    'logo': 'logo_small.png',
-    'logo_name': True,
     'github_button': False,
     'github_user': 'craabreu',
     'github_repo': 'openmmcppforces',
