@@ -40,6 +40,7 @@ private:
     const CompositeRMSDForce& owner;
     vector<vector<int>> groups;
     vector<Vec3> referencePos;
+    double sumRefPosSquared;
 };
 
 } // namespace OpenMMCPPForces

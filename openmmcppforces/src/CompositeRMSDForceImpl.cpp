@@ -69,6 +69,10 @@ void CompositeRMSDForceImpl::updateParameters(int systemSize) {
         for (int i : group)
             referencePos.push_back(positions[i] - center);
     }
+
+    sumRefPosSquared = 0.0;
+    for (auto& p : referencePos)
+        sumRefPosSquared += p.dot(p);
 }
 
 void CompositeRMSDForceImpl::initialize(ContextImpl& context) {
@@ -134,15 +138,17 @@ double CompositeRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
 
     // Compute the RMSD.
 
-    double sum = 0.0;
-    for (auto& group : groups)
-        for (int index = 0; index < group.size(); index++)
-            sum += centeredPos[index].dot(centeredPos[index]) + referencePos[index].dot(referencePos[index]);
+    double sum = sumRefPosSquared;
+    for (auto& p : centeredPos)
+        sum += p.dot(p);
 
     double msd = (sum - 2*values[3])/numParticles;
     if (msd < 1e-20) {
         // The particles are perfectly aligned, so all the forces should be zero.
         // Numerical error can lead to NaNs, so just return 0 now.
+        for (auto& group : groups)
+            for (int i : group)
+                forces[i] = Vec3(0, 0, 0);
         return 0.0;
     }
     double rmsd = sqrt(msd);
@@ -161,14 +167,18 @@ double CompositeRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
     // Rotate the reference positions and compute the forces.
 
     index = 0;
-    for (auto& group : groups)
+    for (auto& group : groups) {
+        double scale = 1.0 / (rmsd*group.size());
         for (int i : group) {
             const Vec3& p = referencePos[index];
-            Vec3 rotatedRef(U[0][0]*p[0] + U[1][0]*p[1] + U[2][0]*p[2],
-                            U[0][1]*p[0] + U[1][1]*p[1] + U[2][1]*p[2],
-                            U[0][2]*p[0] + U[1][2]*p[1] + U[2][2]*p[2]);
-            forces[i] = -(centeredPos[index] - rotatedRef) / (rmsd*groups[0].size());
+            Vec3 rotatedRef(
+                U[0][0]*p[0] + U[1][0]*p[1] + U[2][0]*p[2],
+                U[0][1]*p[0] + U[1][1]*p[1] + U[2][1]*p[2],
+                U[0][2]*p[0] + U[1][2]*p[1] + U[2][2]*p[2]
+            );
+            forces[i] = scale * (rotatedRef - centeredPos[index]);
             index++;
+        }
     }
     return rmsd;
 }
