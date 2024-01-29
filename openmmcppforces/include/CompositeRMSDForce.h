@@ -8,7 +8,7 @@
  *  A plugin for distributing platform-agnostic OpenMM Forces                 *
  *                                                                            *
  *  Copyright (c) 2024 Charlles Abreu                                         *
- *  https://github.com/craabreu/openmm-cpp-forces                               *
+ *  https://github.com/craabreu/openmm-cpp-forces                             *
  * -------------------------------------------------------------------------- */
 
 #include "internal/windowsExportOpenMMCPPForces.h"
@@ -44,7 +44,7 @@ public:
      * @param referencePositions  the reference positions to compute the deviation from.
      *                            The length of this vector must equal the number of
      *                            particles in the system, even if not all particles are
-     *                            used in computing the Concerted RMSD.
+     *                            used in computing the Composite RMSD.
      */
     explicit CompositeRMSDForce(const vector<Vec3>& referencePositions);
     /**
@@ -59,11 +59,11 @@ public:
      * @param positions    the reference positions to compute the deviation from.
      *                     The length of this vector must equal the number of
      *                     particles in the system, even if not all particles are
-     *                     used in computing the concerted RMSD.
+     *                     used in computing the composite RMSD.
      */
     void setReferencePositions(const vector<Vec3>& positions);
     /**
-     * Add a group of particles to be included in the concerted RMSD calculation.
+     * Add a group of particles to be included in the composite RMSD calculation.
      *
      * @param particles    the indices of the particles to include
      *
@@ -71,17 +71,17 @@ public:
      */
     int addGroup(const vector<int>& particles);
     /**
-     * Get the number of particle groups included in the concerted RMSD calculation.
+     * Get the number of particle groups included in the composite RMSD calculation.
      */
     int getNumGroups() const;
     /**
-     * Get the particles of a group included in the concerted RMSD calculation.
+     * Get the particles of a group included in the composite RMSD calculation.
      *
      * @param index    the index of the group whose particles are to be retrieved
      */
     const vector<int>& getGroup(int index) const;
     /**
-     * Set the particles of a group included in the concerted RMSD calculation.
+     * Set the particles of a group included in the composite RMSD calculation.
      */
     void setGroup(int index, const vector<int>& particles);
     /**
