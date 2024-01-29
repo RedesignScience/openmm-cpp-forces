@@ -17,13 +17,12 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            python-version: "3.11"
-            openmm-version: "8.1"
-            gcc-version: "13"
 
     steps:
       - name: "Check out"
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.REPO_TOKEN }}
 
       - name: "Additional info about the build"
         shell: bash
@@ -38,9 +37,8 @@ jobs:
           environment-file: devtools/conda-envs/build-docs.yml
           environment-name: docs
           create-args: >-
-            python=${{ matrix.python-version }}
-            gxx_linux-64=${{ matrix.gcc-version }}
-            openmm=${{ matrix.openmm-version }}
+            python=3.11
+            openmm=8.1
 
       - name: "List conda packages"
         shell: bash -l {0}
