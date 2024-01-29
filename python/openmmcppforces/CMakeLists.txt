@@ -17,7 +17,6 @@ add_custom_command(
     TARGET PythonWrapper
     COMMAND "${SWIG_EXECUTABLE}"
         -python -c++
-        -doxygen
         -o "${WRAP_FILE}"
         "-I${OPENMM_DIR}/include"
         "${MODULE_NAME}.i"
