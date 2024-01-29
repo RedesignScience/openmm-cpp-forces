@@ -5,11 +5,13 @@ dependencies:
   - cmake
   - gxx_linux-64
   - make
+  - numpy
   - openmm
   - pip >=22.2
-  - pytest
   - python
-  - doxygen
   - swig =4.0
   - sysroot_linux-64 2.17
-  - numpy
+
+  # Test dependencies
+  - openmmtools
+  - pytest
