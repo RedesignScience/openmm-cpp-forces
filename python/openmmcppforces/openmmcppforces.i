@@ -101,6 +101,7 @@ referencePositions
 Examples
 --------
     >>> import openmmcppforces as mmcpp
+    >>> import openmm as mm
     >>> from openmmtools import testsystems
     >>> model = testsystems.HostGuestVacuum()
     >>> host_atoms, guest_atoms = (
@@ -108,20 +109,24 @@ Examples
     ...     for r in model.topology.residues()
     ... )
     >>> force = mmcpp.CompositeRMSDForce(model.positions)
-    >>> host_group, guest_group = (
-    ...     force.addGroup(atoms)
-    ...     for atoms in (host_atoms, guest_atoms)
-    ... )
+    >>> _ = force.addGroup(host_atoms)
+    >>> _ = force.addGroup(guest_atoms)
     >>> force.setForceGroup(1)
-    >>> model.system.addForce(force)
-    5
+    >>> _ = model.system.addForce(force)
     >>> context = mm.Context(
     ...     model.system,
     ...     mm.VerletIntegrator(1.0 * unit.femtoseconds),
     ...     mm.Platform.getPlatformByName('Reference'),
     ... )
     >>> context.setPositions(model.positions)
-    >>> context.getState(getEnergy=True, groups={1}).getPotentialEnergy()
+    >>> state = context.getState(getEnergy=True, groups={1})
+    >>> state.getPotentialEnergy().value_in_unit(unit.kilojoules_per_mole)
+    0.0
+    >>> model.positions[guest_atoms] += 1.0 * unit.nanometers
+    >>> context.setPositions(model.positions)
+    >>> state = context.getState(getEnergy=True, groups={1})
+    >>> state.getPotentialEnergy().value_in_unit(unit.kilojoules_per_mole)
+    0.0
 %}
 class CompositeRMSDForce : public OpenMM::Force {
 public:
