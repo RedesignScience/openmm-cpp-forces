@@ -1,8 +1,8 @@
-ConcertedRMSDForce
+CompositeRMSDForce
 ==================
 
 .. currentmodule:: openmmcppforces.openmmcppforces
-.. autoclass:: ConcertedRMSDForce
+.. autoclass:: CompositeRMSDForce
     :members:
     :inherited-members:
     :member-order: alphabetical
