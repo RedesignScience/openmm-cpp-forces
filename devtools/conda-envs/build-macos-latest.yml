@@ -2,12 +2,15 @@ name: build
 channels:
   - conda-forge
 dependencies:
-  - cmake
   - compilers
+  - cmake
   - make
+  - numpy
   - openmm
   - pip >=22.2
-  - pytest
   - python
   - swig =4.0
-  - numpy
+
+  # Test dependencies
+  - openmmtools
+  - pytest
