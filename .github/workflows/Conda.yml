@@ -50,7 +50,7 @@ jobs:
           export PLUGIN_VERSION=v0.1.0
           echo "::group::Building conda package for version $PLUGIN_VERSION"
           outdir=$(mktemp -d)
-          conda mambabuild . --no-anaconda-upload --variants "{platform: ${{ matrix.platform }}}" --output-folder $outdir
+          conda mambabuild . --no-anaconda-upload --variants "{target_platform: ${{ matrix.platform }}}" --output-folder $outdir
           echo "::endgroup::"
           echo "::group::Uploading packages to mdtools conda channel"
           if [ "$GITHUB_EVENT_NAME" == "pull_request" ]; then
