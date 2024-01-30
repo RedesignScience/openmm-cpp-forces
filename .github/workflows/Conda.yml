@@ -47,7 +47,7 @@ jobs:
         working-directory: ./devtools/conda-recipes/anaconda
         run: |
           export PLUGIN_VERSION=${{ github.ref_name }}
-          export PLUGIN_VERSION=v0.0.0
+          export PLUGIN_VERSION=v0.1.0
           echo "::group::Building conda package for version $PLUGIN_VERSION"
           outdir=$(mktemp -d)
           conda mambabuild . --no-anaconda-upload --variants "{platform: ${{ matrix.platform }}}" --output-folder $outdir
