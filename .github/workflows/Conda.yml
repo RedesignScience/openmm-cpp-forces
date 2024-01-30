@@ -44,6 +44,7 @@ jobs:
         working-directory: ./devtools/conda-recipes/anaconda
         run: |
           export PLUGIN_VERSION=${{ github.ref_name }}
+          [ "$GITHUB_EVENT_NAME" == "pull_request" ] && export PLUGIN_VERSION=v0.0.0
           echo "::group::Building conda package for version $PLUGIN_VERSION"
           outdir=$(mktemp -d)
           conda mambabuild . --no-anaconda-upload --variants "{target_platform: ${{ matrix.platform }}}" --output-folder $outdir
