@@ -21,9 +21,6 @@ jobs:
           - os: macos-latest
             platform: osx-64
 
-          - os: macos-latest
-            platform: osx-arm64
-
     steps:
       - uses: actions/checkout@v3
 
@@ -47,7 +44,6 @@ jobs:
         working-directory: ./devtools/conda-recipes/anaconda
         run: |
           export PLUGIN_VERSION=${{ github.ref_name }}
-          export PLUGIN_VERSION=v0.1.0
           echo "::group::Building conda package for version $PLUGIN_VERSION"
           outdir=$(mktemp -d)
           conda mambabuild . --no-anaconda-upload --variants "{target_platform: ${{ matrix.platform }}}" --output-folder $outdir
