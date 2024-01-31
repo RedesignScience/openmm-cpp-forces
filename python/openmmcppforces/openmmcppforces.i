@@ -56,20 +56,21 @@ namespace OpenMMCPPForces {
 This is a force whose energy equals the root mean squared deviation (RMSD) between the
 current coordinates of multiple particle groups and reference structures defined for
 each group. The composite RMSD is computed after aligning every particle group to its
-reference while keeping the relative orientations of all groups fixed. Therefore, it is
-not a mere composition of independent RMSD calculations done in the usual way.
+reference while keeping the relative orientations of all groups fixed. In other words,
+every group can translate independently in search for the best alignment, but all
+groups must rotate in unison.
 
 Consider `m` particle groups, with each group :math:`{\bf g}_j` containing
 :math:`n_j` particles. The centroid of each group is given by
 
 .. math::
 
-   {\bf c}_j = \frac{1}{n_j} \sum_{k \in {\bf g}_j} {\bf r}_k
+   {\bf c}_j = \frac{1}{n_j} \sum_{i \in {\bf g}_j} {\bf r}_i
 
-where :math:`{\bf r}_k` is the position of particle :math:`k` and the sum is over
+where :math:`{\bf r}_i` is the position of particle :math:`k` and the sum is over
 all particles in the group. Analogously, :math:`{\bf c}_j^{\rm ref}` is the
 centroid of the reference structure for group :math:`j`, whose each particle
-:math:`k` is located at :math:`{\bf r}_k^{\rm ref}`.
+:math:`k` is located at :math:`{\bf r}_i^{\rm ref}`.
 
 The composite RMSD is then defined as
 
@@ -78,9 +79,9 @@ The composite RMSD is then defined as
     d_{\rm crms}({\bf r}) = \sqrt{
         \frac{1}{n} \min_{
             \bf q \in \mathbb{R}^4 \atop \|{\bf q}\| = 1
-        } \sum_{j=1}^m \sum_{k \in {\bf g}_j} \left\|
-            {\bf A}({\bf q})\left({\bf r}_k - {\bf c}_j\right) -
-                {\bf r}_k^{\rm ref} + {\bf c}_j^{\rm ref}
+        } \sum_{j=1}^m \sum_{i \in {\bf g}_j} \left\|
+            {\bf A}({\bf q})\left({\bf r}_i - {\bf c}_j\right) -
+                {\bf r}_i^{\rm ref} + {\bf c}_j^{\rm ref}
         \right\|^2
     }
 
