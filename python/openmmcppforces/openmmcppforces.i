@@ -218,13 +218,22 @@ public:
     %}
     bool usesPeriodicBoundaryConditions();
 
+
     %extend {
+        %feature("docstring") %{Cast a :OpenMM:`Force` to a :class:`CompositeRMSDForce`.%}
         static OpenMMCPPForces::CompositeRMSDForce& cast(OpenMM::Force& force) {
             return dynamic_cast<OpenMMCPPForces::CompositeRMSDForce&>(force);
         }
 
+        %feature("docstring") %{Check if a :OpenMM:`Force` is a :class:`CompositeRMSDForce`.%}
         static bool isinstance(OpenMM::Force& force) {
             return (dynamic_cast<OpenMMCPPForces::CompositeRMSDForce*>(&force) != NULL);
+        }
+
+        %feature("docstring") %{Clone a :class:`CompositeRMSDForce` object.%}
+        %newobject __copy__;
+        OpenMMCPPForces::CompositeRMSDForce* __copy__() {
+            return OpenMM::XmlSerializer::clone<OpenMMCPPForces::CompositeRMSDForce>(*self);
         }
     }
 };
