@@ -34,7 +34,7 @@ Add units to function outputs.
 */
 
 %pythonappend OpenMMCPPForces::CompositeRMSDForce::getReferencePositions() const %{
-    val= unit.nanometers
+    val *= unit.nanometers
 %}
 
 /*
