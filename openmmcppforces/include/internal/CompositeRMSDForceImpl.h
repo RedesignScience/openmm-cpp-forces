@@ -8,7 +8,7 @@
  *  A plugin for distributing platform-agnostic OpenMM Forces                 *
  *                                                                            *
  *  Copyright (c) 2024 Charlles Abreu                                         *
-*  https://github.com/RedesignScience/openmm-cpp-forces                      *
+ *  https://github.com/RedesignScience/openmm-cpp-forces                      *
  * -------------------------------------------------------------------------- */
 
 #include "CompositeRMSDForce.h"
@@ -28,7 +28,8 @@ namespace OpenMMCPPForces {
 
 class CompositeRMSDForceImpl : public CustomCPPForceImpl {
 public:
-    CompositeRMSDForceImpl(const CompositeRMSDForce& owner) : CustomCPPForceImpl(owner), owner(owner) {}
+    CompositeRMSDForceImpl(const CompositeRMSDForce& owner) :
+      CustomCPPForceImpl(owner), owner(owner), resetForces(true) {}
     void initialize(ContextImpl& context);
     double computeForce(ContextImpl& context, const vector<Vec3>& positions, vector<Vec3>& forces);
     const CompositeRMSDForce& getOwner() const {
@@ -40,7 +41,8 @@ private:
     const CompositeRMSDForce& owner;
     vector<vector<int>> groups;
     vector<Vec3> referencePos;
-    double sumRefPosSquared;
+    double sumRefPosSq;
+    bool resetForces;
 };
 
 } // namespace OpenMMCPPForces

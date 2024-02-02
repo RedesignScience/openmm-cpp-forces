@@ -5,7 +5,7 @@
  *  A plugin for distributing platform-agnostic OpenMM Forces                 *
  *                                                                            *
  *  Copyright (c) 2024 Charlles Abreu                                         *
-*  https://github.com/RedesignScience/openmm-cpp-forces                      *
+ *  https://github.com/RedesignScience/openmm-cpp-forces                      *
  * -------------------------------------------------------------------------- */
 
 #include "internal/CompositeRMSDForceImpl.h"
@@ -70,9 +70,11 @@ void CompositeRMSDForceImpl::updateParameters(int systemSize) {
             referencePos.push_back(positions[i] - center);
     }
 
-    sumRefPosSquared = 0.0;
+    sumRefPosSq = 0.0;
     for (auto& p : referencePos)
-        sumRefPosSquared += p.dot(p);
+        sumRefPosSq += p.dot(p);
+
+    resetForces = true;
 }
 
 void CompositeRMSDForceImpl::initialize(ContextImpl& context) {
@@ -138,7 +140,7 @@ double CompositeRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
 
     // Compute the RMSD.
 
-    double sum = sumRefPosSquared;
+    double sum = sumRefPosSq;
     for (auto& p : centeredPos)
         sum += p.dot(p);
 
@@ -165,6 +167,11 @@ double CompositeRMSDForceImpl::computeForce(ContextImpl& context, const vector<V
                       {2*(q13-q02), 2*(q23+q01), q00-q11-q22+q33}};
 
     // Rotate the reference positions and compute the forces.
+
+    if (resetForces) {
+        fill(forces.begin(), forces.end(), Vec3(0, 0, 0));
+        resetForces = false;
+    }
 
     index = 0;
     for (auto& group : groups) {
